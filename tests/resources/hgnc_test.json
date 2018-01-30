@@ -1,0 +1,979 @@
+{
+  "responseHeader": {
+    "status": 0,
+    "QTime": 17
+  },
+  "response": {
+    "numFound": 17,
+    "docs": [
+      {
+        "gene_family": [
+          "Zinc fingers CXXC-type",
+          "Seven-beta-strand methyltransferase motif containing"
+        ],
+        "date_approved_reserved": "1991-06-04",
+        "vega_id": "OTTHUMG00000180397",
+        "locus_group": "protein-coding gene",
+        "status": "Approved",
+        "alias_symbol": [
+          "MCMT",
+          "CXXC9"
+        ],
+        "_version_": 1590994385680465927,
+        "uuid": "7e700f20-f384-4413-bf8e-f1d79edb6c51",
+        "prev_name": [
+          "DNA (cytosine-5-)-methyltransferase 1"
+        ],
+        "lsdb": [
+          "LRG_362|http://www.lrg-sequence.org/LRG/LRG_362"
+        ],
+        "refseq_accession": [
+          "NM_001379"
+        ],
+        "locus_type": "gene with protein product",
+        "iuphar": "objectId:2605",
+        "gene_family_id": [
+          136,
+          1400
+        ],
+        "cosmic": "DNMT1",
+        "hgnc_id": "HGNC:2976",
+        "rgd_id": [
+          "RGD:620979"
+        ],
+        "ensembl_gene_id": "ENSG00000130816",
+        "entrez_id": "1786",
+        "omim_id": [
+          "126375"
+        ],
+        "symbol": "DNMT1",
+        "date_name_changed": "2016-06-21",
+        "location": "19p13.2",
+        "name": "DNA methyltransferase 1",
+        "date_modified": "2017-03-24",
+        "mgd_id": [
+          "MGI:94912"
+        ],
+        "ucsc_id": "uc002mng.4",
+        "prev_symbol": [
+          "DNMT"
+        ],
+        "enzyme_id": [
+          "2.1.1.37"
+        ],
+        "uniprot_ids": [
+          "P26358"
+        ],
+        "orphanet": 270026,
+        "ccds_id": [
+          "CCDS12228",
+          "CCDS45958"
+        ],
+        "ena": [
+          "X63692"
+        ],
+        "pubmed_id": [
+          1594447
+        ],
+        "location_sortable": "19p13.2"
+      },
+      {
+        "date_approved_reserved": "1995-01-30",
+        "alias_name": [
+          "gamma-glutamylcysteine synthetase"
+        ],
+        "vega_id": "OTTHUMG00000010562",
+        "locus_group": "protein-coding gene",
+        "status": "Approved",
+        "_version_": 1590994386078924806,
+        "uuid": "3d629e31-29d6-453f-9c0e-01e9c12fe764",
+        "prev_name": [
+          "glutamate-cysteine ligase, modifier subunit"
+        ],
+        "refseq_accession": [
+          "NM_002061"
+        ],
+        "locus_type": "gene with protein product",
+        "cosmic": "GCLM",
+        "hgnc_id": "HGNC:4312",
+        "rgd_id": [
+          "RGD:619871"
+        ],
+        "ensembl_gene_id": "ENSG00000023909",
+        "entrez_id": "2730",
+        "omim_id": [
+          "601176"
+        ],
+        "symbol": "GCLM",
+        "date_name_changed": "2016-01-21",
+        "location": "1p22.1",
+        "name": "glutamate-cysteine ligase modifier subunit",
+        "date_modified": "2016-10-05",
+        "mgd_id": [
+          "MGI:104995"
+        ],
+        "ucsc_id": "uc001dqg.2",
+        "prev_symbol": [
+          "GLCLR"
+        ],
+        "enzyme_id": [
+          "6.3.2.2"
+        ],
+        "uniprot_ids": [
+          "P48507"
+        ],
+        "ccds_id": [
+          "CCDS746",
+          "CCDS81352"
+        ],
+        "ena": [
+          "L35546"
+        ],
+        "pubmed_id": [
+          7826375
+        ],
+        "location_sortable": "01p22.1"
+      },
+      {
+        "gene_family": [
+          "Short chain dehydrogenase/reductase superfamily"
+        ],
+        "date_approved_reserved": "2000-02-01",
+        "alias_name": [
+          "short chain dehydrogenase/reductase family 23E, member 1"
+        ],
+        "vega_id": "OTTHUMG00000130379",
+        "locus_group": "protein-coding gene",
+        "status": "Approved",
+        "alias_symbol": [
+          "MATIIbeta",
+          "SDR23E1"
+        ],
+        "_version_": 1590994386995380227,
+        "uuid": "7b8eb68f-a9d8-4e87-8256-8489b8bec3a9",
+        "prev_name": [
+          "methionine adenosyltransferase II, beta"
+        ],
+        "refseq_accession": [
+          "NM_013283"
+        ],
+        "locus_type": "gene with protein product",
+        "gene_family_id": [
+          743
+        ],
+        "cosmic": "MAT2B",
+        "hgnc_id": "HGNC:6905",
+        "rgd_id": [
+          "RGD:1593534"
+        ],
+        "ensembl_gene_id": "ENSG00000038274",
+        "entrez_id": "27430",
+        "omim_id": [
+          "605527"
+        ],
+        "symbol": "MAT2B",
+        "date_name_changed": "2016-01-27",
+        "location": "5q34",
+        "name": "methionine adenosyltransferase 2B",
+        "date_modified": "2016-01-27",
+        "mgd_id": [
+          "MGI:1913667"
+        ],
+        "ucsc_id": "uc003lzk.5",
+        "uniprot_ids": [
+          "Q9NZL9"
+        ],
+        "ccds_id": [
+          "CCDS4364",
+          "CCDS4365"
+        ],
+        "ena": [
+          "AF182814"
+        ],
+        "pubmed_id": [
+          9055605,
+          10644686,
+          19027726
+        ],
+        "location_sortable": "05q34"
+      },
+      {
+        "gene_family": [
+          "UDP glucuronosyltransferases"
+        ],
+        "date_approved_reserved": "1997-07-01",
+        "vega_id": "OTTHUMG00000058891",
+        "locus_group": "protein-coding gene",
+        "status": "Approved",
+        "alias_symbol": [
+          "UGT2B11"
+        ],
+        "_version_": 1590994389864284163,
+        "uuid": "b955554d-1321-4a65-9668-35db5ece57ab",
+        "prev_name": [
+          "UDP glycosyltransferase 2 family, polypeptide B4"
+        ],
+        "refseq_accession": [
+          "NM_021139"
+        ],
+        "locus_type": "gene with protein product",
+        "gene_family_id": [
+          363
+        ],
+        "cosmic": "UGT2B4",
+        "hgnc_id": "HGNC:12553",
+        "ensembl_gene_id": "ENSG00000156096",
+        "entrez_id": "7363",
+        "omim_id": [
+          "600067"
+        ],
+        "symbol": "UGT2B4",
+        "date_name_changed": "2016-03-01",
+        "location": "4q13.3",
+        "name": "UDP glucuronosyltransferase family 2 member B4",
+        "date_modified": "2016-03-01",
+        "ucsc_id": "uc003hek.4",
+        "uniprot_ids": [
+          "P06133"
+        ],
+        "ccds_id": [
+          "CCDS43234",
+          "CCDS75137"
+        ],
+        "ena": [
+          "BC026264"
+        ],
+        "pubmed_id": [
+          3109396,
+          7835904
+        ],
+        "location_sortable": "04q13.3"
+      },
+      {
+        "gene_family": [
+          "Potassium voltage-gated channel subfamily J"
+        ],
+        "date_approved_reserved": "1994-02-08",
+        "vega_id": "OTTHUMG00000131937",
+        "locus_group": "protein-coding gene",
+        "status": "Approved",
+        "alias_symbol": [
+          "Kir3.1",
+          "GIRK1",
+          "KGA"
+        ],
+        "_version_": 1590994386541346820,
+        "uuid": "2911d8d4-6679-4cfb-9ae7-532aa3aebb41",
+        "prev_name": [
+          "potassium inwardly-rectifying channel, subfamily J, member 3"
+        ],
+        "refseq_accession": [
+          "NM_002239"
+        ],
+        "locus_type": "gene with protein product",
+        "iuphar": "objectId:434",
+        "gene_family_id": [
+          276
+        ],
+        "cosmic": "KCNJ3",
+        "hgnc_id": "HGNC:6264",
+        "rgd_id": [
+          "RGD:2958"
+        ],
+        "ensembl_gene_id": "ENSG00000162989",
+        "entrez_id": "3760",
+        "omim_id": [
+          "601534"
+        ],
+        "symbol": "KCNJ3",
+        "date_name_changed": "2016-02-04",
+        "location": "2q24.1",
+        "name": "potassium voltage-gated channel subfamily J member 3",
+        "date_modified": "2016-02-04",
+        "mgd_id": [
+          "MGI:104742"
+        ],
+        "ucsc_id": "uc002tyv.3",
+        "uniprot_ids": [
+          "P48549"
+        ],
+        "ccds_id": [
+          "CCDS2200",
+          "CCDS58733"
+        ],
+        "ena": [
+          "U50964"
+        ],
+        "pubmed_id": [
+          8088798,
+          16382105
+        ],
+        "location_sortable": "02q24.1"
+      },
+      {
+        "gene_family": [
+          "Regulators of G-protein signaling"
+        ],
+        "date_approved_reserved": "1998-10-12",
+        "vega_id": "OTTHUMG00000034441",
+        "locus_group": "protein-coding gene",
+        "status": "Approved",
+        "_version_": 1590994388280934405,
+        "uuid": "c7c18d47-8e3b-44e4-a7bf-e87710297183",
+        "prev_name": [
+          "regulator of G-protein signalling 5",
+          "regulator of G-protein signaling 5"
+        ],
+        "refseq_accession": [
+          "NM_003617"
+        ],
+        "locus_type": "gene with protein product",
+        "iuphar": "objectId:2812",
+        "gene_family_id": [
+          720
+        ],
+        "cosmic": "RGS5",
+        "hgnc_id": "HGNC:10001",
+        "rgd_id": [
+          "RGD:3568"
+        ],
+        "ensembl_gene_id": "ENSG00000143248",
+        "entrez_id": "8490",
+        "omim_id": [
+          "603276"
+        ],
+        "symbol": "RGS5",
+        "date_name_changed": "2017-04-13",
+        "location": "1q23.3",
+        "name": "regulator of G protein signaling 5",
+        "date_modified": "2017-04-13",
+        "mgd_id": [
+          "MGI:1098434"
+        ],
+        "ucsc_id": "uc001gcn.4",
+        "uniprot_ids": [
+          "O15539"
+        ],
+        "ccds_id": [
+          "CCDS1244",
+          "CCDS55652",
+          "CCDS58041"
+        ],
+        "ena": [
+          "AF030108"
+        ],
+        "pubmed_id": [
+          9747037
+        ],
+        "location_sortable": "01q23.3"
+      },
+      {
+        "gene_family": [
+          "G protein subunits gamma"
+        ],
+        "date_approved_reserved": "1988-04-28",
+        "vega_id": "OTTHUMG00000022908",
+        "locus_group": "protein-coding gene",
+        "status": "Approved",
+        "alias_symbol": [
+          "GNG1"
+        ],
+        "_version_": 1590994386140790784,
+        "uuid": "9936f188-6b6a-4c5a-b7d5-7ae8895098e1",
+        "prev_name": [
+          "guanine nucleotide binding protein (G protein), gamma transducing activity polypeptide 1"
+        ],
+        "refseq_accession": [
+          "NM_021955"
+        ],
+        "locus_type": "gene with protein product",
+        "gene_family_id": [
+          1432
+        ],
+        "cosmic": "GNGT1",
+        "hgnc_id": "HGNC:4411",
+        "rgd_id": [
+          "RGD:1595475"
+        ],
+        "ensembl_gene_id": "ENSG00000127928",
+        "entrez_id": "2792",
+        "omim_id": [
+          "189970"
+        ],
+        "symbol": "GNGT1",
+        "date_name_changed": "2016-03-03",
+        "location": "7q21.3",
+        "name": "G protein subunit gamma transducin 1",
+        "date_modified": "2016-03-03",
+        "mgd_id": [
+          "MGI:109165"
+        ],
+        "ucsc_id": "uc003unc.2",
+        "uniprot_ids": [
+          "P63211"
+        ],
+        "ccds_id": [
+          "CCDS5633"
+        ],
+        "pubmed_id": [
+          8661128
+        ],
+        "location_sortable": "07q21.3"
+      },
+      {
+        "gene_family": [
+          "UDP glucuronosyltransferases"
+        ],
+        "date_approved_reserved": "1997-07-01",
+        "vega_id": "OTTHUMG00000129404",
+        "locus_group": "protein-coding gene",
+        "status": "Approved",
+        "alias_symbol": [
+          "UGT2B9"
+        ],
+        "_version_": 1590994389864284164,
+        "uuid": "474de409-7708-4b8b-b227-68a4728f68c6",
+        "prev_name": [
+          "UDP glycosyltransferase 2 family, polypeptide B7"
+        ],
+        "refseq_accession": [
+          "NM_001074"
+        ],
+        "locus_type": "gene with protein product",
+        "gene_family_id": [
+          363
+        ],
+        "cosmic": "UGT2B7",
+        "hgnc_id": "HGNC:12554",
+        "rgd_id": [
+          "RGD:708417"
+        ],
+        "ensembl_gene_id": "ENSG00000171234",
+        "entrez_id": "7364",
+        "omim_id": [
+          "600068"
+        ],
+        "symbol": "UGT2B7",
+        "date_name_changed": "2016-03-01",
+        "location": "4q13.2",
+        "name": "UDP glucuronosyltransferase family 2 member B7",
+        "date_modified": "2016-10-05",
+        "mgd_id": [
+          "MGI:3576100",
+          "MGI:3576103"
+        ],
+        "ucsc_id": "uc003heg.4",
+        "uniprot_ids": [
+          "P16662"
+        ],
+        "ccds_id": [
+          "CCDS3526",
+          "CCDS82930"
+        ],
+        "ena": [
+          "BC030974"
+        ],
+        "pubmed_id": [
+          2159463,
+          7835904
+        ],
+        "location_sortable": "04q13.2"
+      },
+      {
+        "gene_family": [
+          "MicroRNAs"
+        ],
+        "date_approved_reserved": "2014-03-24",
+        "symbol": "MIR6869",
+        "locus_group": "non-coding RNA",
+        "location": "20p13",
+        "status": "Approved",
+        "date_modified": "2016-11-16",
+        "alias_symbol": [
+          "hsa-mir-6869"
+        ],
+        "name": "microRNA 6869",
+        "_version_": 1590994387258572801,
+        "uuid": "fe40552a-a8a7-49a6-8033-5296fc016852",
+        "refseq_accession": [
+          "NR_106929"
+        ],
+        "mirbase": "MI0022716",
+        "locus_type": "RNA, micro",
+        "gene_family_id": [
+          476
+        ],
+        "hgnc_id": "HGNC:50056",
+        "rna_central_ids": [
+          "URS0000759F74"
+        ],
+        "ensembl_gene_id": "ENSG00000284436",
+        "entrez_id": "102465524",
+        "location_sortable": "20p13"
+      },
+      {
+        "gene_family": [
+          "G protein subunits gamma"
+        ],
+        "date_approved_reserved": "1995-11-21",
+        "alias_name": [
+          "G protein gamma-11 subunit",
+          "guanine nucleotide-binding protein G(I)/G(S)/G(O) gamma-11 subunit"
+        ],
+        "vega_id": "OTTHUMG00000023411",
+        "locus_group": "protein-coding gene",
+        "status": "Approved",
+        "alias_symbol": [
+          "GNGT11"
+        ],
+        "_version_": 1590994386139742212,
+        "uuid": "f9288b7b-da23-4d9c-8ce8-a8c51678e906",
+        "prev_name": [
+          "guanine nucleotide binding protein (G protein), gamma 11"
+        ],
+        "refseq_accession": [
+          "NM_004126"
+        ],
+        "locus_type": "gene with protein product",
+        "gene_family_id": [
+          1432
+        ],
+        "cosmic": "GNG11",
+        "hgnc_id": "HGNC:4403",
+        "rgd_id": [
+          "RGD:621515"
+        ],
+        "ensembl_gene_id": "ENSG00000127920",
+        "entrez_id": "2791",
+        "omim_id": [
+          "604390"
+        ],
+        "symbol": "GNG11",
+        "date_name_changed": "2016-03-03",
+        "location": "7q21.3",
+        "name": "G protein subunit gamma 11",
+        "date_modified": "2016-10-05",
+        "mgd_id": [
+          "MGI:1913316"
+        ],
+        "ucsc_id": "uc003und.4",
+        "uniprot_ids": [
+          "P61952"
+        ],
+        "ccds_id": [
+          "CCDS5634"
+        ],
+        "pubmed_id": [
+          7665596
+        ],
+        "location_sortable": "07q21.3"
+      },
+      {
+        "gene_family": [
+          "DNA polymerases"
+        ],
+        "date_approved_reserved": "2005-01-10",
+        "alias_name": [
+          "DNA polymerase alpha subunit B",
+          "DNA polymerase alpha 70 kDa subunit"
+        ],
+        "vega_id": "OTTHUMG00000165951",
+        "locus_group": "protein-coding gene",
+        "status": "Approved",
+        "alias_symbol": [
+          "FLJ21662"
+        ],
+        "_version_": 1590994387998867457,
+        "uuid": "41bb24d4-667b-40a0-9724-49bb304bc9bc",
+        "prev_name": [
+          "polymerase (DNA directed), alpha 2 (70kD subunit)",
+          "polymerase (DNA) alpha 2, accessory subunit"
+        ],
+        "refseq_accession": [
+          "NM_002689"
+        ],
+        "locus_type": "gene with protein product",
+        "gene_family_id": [
+          535
+        ],
+        "cosmic": "POLA2",
+        "hgnc_id": "HGNC:30073",
+        "rgd_id": [
+          "RGD:621817"
+        ],
+        "ensembl_gene_id": "ENSG00000014138",
+        "entrez_id": "23649",
+        "symbol": "POLA2",
+        "date_name_changed": "2016-07-11",
+        "location": "11q13.1",
+        "name": "DNA polymerase alpha 2, accessory subunit",
+        "date_modified": "2016-10-05",
+        "mgd_id": [
+          "MGI:99690"
+        ],
+        "ucsc_id": "uc001odj.4",
+        "uniprot_ids": [
+          "Q14181"
+        ],
+        "ccds_id": [
+          "CCDS8098"
+        ],
+        "ena": [
+          "BC002990"
+        ],
+        "pubmed_id": [
+          8223465,
+          11433027
+        ],
+        "location_sortable": "11q13.1"
+      },
+      {
+        "gene_family": [
+          "DNA polymerases"
+        ],
+        "date_approved_reserved": "2001-06-22",
+        "vega_id": "OTTHUMG00000021277",
+        "locus_group": "protein-coding gene",
+        "status": "Approved",
+        "alias_symbol": [
+          "p180"
+        ],
+        "_version_": 1590994387998867456,
+        "uuid": "735e2111-347d-43c4-9781-706f7589550b",
+        "prev_name": [
+          "polymerase (DNA directed), alpha",
+          "N syndrome (mental retardation, malformations, chromosome breakage)",
+          "polymerase (DNA) alpha 1, catalytic subunit"
+        ],
+        "lsdb": [
+          "Mental Retardation database|http://grenada.lumc.nl/LOVD2/MR/home.php?select_db=POLA1"
+        ],
+        "refseq_accession": [
+          "NM_016937"
+        ],
+        "locus_type": "gene with protein product",
+        "gene_family_id": [
+          535
+        ],
+        "cosmic": "POLA1",
+        "hgnc_id": "HGNC:9173",
+        "rgd_id": [
+          "RGD:621816"
+        ],
+        "ensembl_gene_id": "ENSG00000101868",
+        "entrez_id": "5422",
+        "omim_id": [
+          "312040"
+        ],
+        "symbol": "POLA1",
+        "date_name_changed": "2016-07-11",
+        "location": "Xp22.11-p21.3",
+        "name": "DNA polymerase alpha 1, catalytic subunit",
+        "date_modified": "2017-06-08",
+        "mgd_id": [
+          "MGI:99660"
+        ],
+        "ucsc_id": "uc004dbl.4",
+        "prev_symbol": [
+          "POLA",
+          "NSX"
+        ],
+        "enzyme_id": [
+          "2.7.7.7"
+        ],
+        "uniprot_ids": [
+          "P09884"
+        ],
+        "orphanet": 460832,
+        "ccds_id": [
+          "CCDS14214",
+          "CCDS83462"
+        ],
+        "date_symbol_changed": "2006-09-26",
+        "pubmed_id": [
+          1689958
+        ],
+        "location_sortable": "Xp22.11-p21.3"
+      },
+      {
+        "gene_family": [
+          "Basic helix-loop-helix proteins"
+        ],
+        "date_approved_reserved": "1994-12-22",
+        "alias_name": [
+          "cell growth-inhibiting gene 8"
+        ],
+        "vega_id": "OTTHUMG00000112454",
+        "locus_group": "protein-coding gene",
+        "status": "Approved",
+        "alias_symbol": [
+          "GIG8",
+          "bHLHb26"
+        ],
+        "_version_": 1590994386376720388,
+        "uuid": "758e5cdf-664f-4551-8dab-6c8b6b2ef2d4",
+        "prev_name": [
+          "inhibitor of differentiation 2",
+          "inhibitor of DNA binding 2, dominant negative helix-loop-helix protein"
+        ],
+        "refseq_accession": [
+          "NM_002166"
+        ],
+        "locus_type": "gene with protein product",
+        "gene_family_id": [
+          420
+        ],
+        "cosmic": "ID2",
+        "hgnc_id": "HGNC:5361",
+        "rgd_id": [
+          "RGD:2859"
+        ],
+        "ensembl_gene_id": "ENSG00000115738",
+        "entrez_id": "3398",
+        "omim_id": [
+          "600386"
+        ],
+        "symbol": "ID2",
+        "date_name_changed": "2017-09-15",
+        "location": "2p25.1",
+        "name": "inhibitor of DNA binding 2",
+        "date_modified": "2017-09-15",
+        "mgd_id": [
+          "MGI:96397"
+        ],
+        "ucsc_id": "uc002qza.4",
+        "uniprot_ids": [
+          "Q02363"
+        ],
+        "ccds_id": [
+          "CCDS1659"
+        ],
+        "pubmed_id": [
+          8294468
+        ],
+        "location_sortable": "02p25.1"
+      },
+      {
+        "date_approved_reserved": "1994-05-24",
+        "vega_id": "OTTHUMG00000014603",
+        "locus_group": "protein-coding gene",
+        "status": "Approved",
+        "alias_symbol": [
+          "P21",
+          "CIP1",
+          "WAF1",
+          "SDI1",
+          "CAP20",
+          "p21CIP1",
+          "p21Cip1/Waf1"
+        ],
+        "_version_": 1590994385297735680,
+        "uuid": "5d9d0775-bfe9-426a-b8e4-7968ce9c4f4e",
+        "prev_name": [
+          "cyclin-dependent kinase inhibitor 1A (p21, Cip1)"
+        ],
+        "refseq_accession": [
+          "NM_078467"
+        ],
+        "locus_type": "gene with protein product",
+        "cosmic": "CDKN1A",
+        "hgnc_id": "HGNC:1784",
+        "rgd_id": [
+          "RGD:69328"
+        ],
+        "ensembl_gene_id": "ENSG00000124762",
+        "entrez_id": "1026",
+        "omim_id": [
+          "116899"
+        ],
+        "symbol": "CDKN1A",
+        "date_name_changed": "2016-06-08",
+        "location": "6p21.2",
+        "name": "cyclin dependent kinase inhibitor 1A",
+        "date_modified": "2017-07-07",
+        "mgd_id": [
+          "MGI:104556"
+        ],
+        "ucsc_id": "uc021yzc.2",
+        "prev_symbol": [
+          "CDKN1"
+        ],
+        "uniprot_ids": [
+          "P38936"
+        ],
+        "orphanet": 293293,
+        "ccds_id": [
+          "CCDS4824"
+        ],
+        "ena": [
+          "U03106"
+        ],
+        "location_sortable": "06p21.2"
+      },
+      {
+        "gene_family": [
+          "Ubiquitin specific peptidases"
+        ],
+        "date_approved_reserved": "1998-06-08",
+        "vega_id": "OTTHUMG00000008972",
+        "locus_group": "protein-coding gene",
+        "status": "Approved",
+        "_version_": 1590994389883158533,
+        "uuid": "fa62c02a-e0ea-4cc9-9a3f-03ea7efec96b",
+        "merops": "C19.019",
+        "prev_name": [
+          "ubiquitin specific protease 1"
+        ],
+        "refseq_accession": [
+          "NM_001017415"
+        ],
+        "locus_type": "gene with protein product",
+        "iuphar": "objectId:2428",
+        "gene_family_id": [
+          366
+        ],
+        "cosmic": "USP1",
+        "hgnc_id": "HGNC:12607",
+        "rgd_id": [
+          "RGD:1306461"
+        ],
+        "ensembl_gene_id": "ENSG00000162607",
+        "entrez_id": "7398",
+        "omim_id": [
+          "603478"
+        ],
+        "symbol": "USP1",
+        "date_name_changed": "2005-08-08",
+        "location": "1p31.3",
+        "name": "ubiquitin specific peptidase 1",
+        "date_modified": "2014-11-19",
+        "mgd_id": [
+          "MGI:2385198"
+        ],
+        "ucsc_id": "uc001daj.3",
+        "uniprot_ids": [
+          "O94782"
+        ],
+        "ccds_id": [
+          "CCDS621"
+        ],
+        "pubmed_id": [
+          12838346
+        ],
+        "location_sortable": "01p31.3"
+      },
+      {
+        "gene_family": [
+          "Basic helix-loop-helix proteins"
+        ],
+        "date_approved_reserved": "1994-12-22",
+        "alias_name": [
+          "DNA-binding protein inhibitor ID-1",
+          "inhibitor of differentiation 1"
+        ],
+        "vega_id": "OTTHUMG00000032181",
+        "locus_group": "protein-coding gene",
+        "status": "Approved",
+        "alias_symbol": [
+          "dJ857M17.1.2",
+          "bHLHb24"
+        ],
+        "_version_": 1590994386376720387,
+        "uuid": "15c60251-6b0d-4a8e-8829-845b54f5b149",
+        "prev_name": [
+          "inhibitor of DNA binding 1, dominant negative helix-loop-helix protein"
+        ],
+        "refseq_accession": [
+          "NM_002165"
+        ],
+        "locus_type": "gene with protein product",
+        "gene_family_id": [
+          420
+        ],
+        "cosmic": "ID1",
+        "hgnc_id": "HGNC:5360",
+        "rgd_id": [
+          "RGD:2858"
+        ],
+        "ensembl_gene_id": "ENSG00000125968",
+        "entrez_id": "3397",
+        "omim_id": [
+          "600349"
+        ],
+        "symbol": "ID1",
+        "date_name_changed": "2016-03-07",
+        "location": "20q11.21",
+        "name": "inhibitor of DNA binding 1, HLH protein",
+        "date_modified": "2016-10-05",
+        "mgd_id": [
+          "MGI:96396"
+        ],
+        "ucsc_id": "uc002wwg.3",
+        "uniprot_ids": [
+          "P41134"
+        ],
+        "ccds_id": [
+          "CCDS13185",
+          "CCDS13186"
+        ],
+        "pubmed_id": [
+          8294468
+        ],
+        "location_sortable": "20q11.21"
+      },
+      {
+        "date_approved_reserved": "1994-08-29",
+        "vega_id": "OTTHUMG00000166340",
+        "locus_group": "protein-coding gene",
+        "status": "Approved",
+        "_version_": 1590994384901373954,
+        "uuid": "1d1ff2b9-8213-4693-85fa-7e26018aae9f",
+        "prev_name": [
+          "coatomer protein complex, subunit delta"
+        ],
+        "refseq_accession": [
+          "NM_001142281"
+        ],
+        "locus_type": "gene with protein product",
+        "cosmic": "ARCN1",
+        "hgnc_id": "HGNC:649",
+        "rgd_id": [
+          "RGD:1359110"
+        ],
+        "ensembl_gene_id": "ENSG00000095139",
+        "entrez_id": "372",
+        "omim_id": [
+          "600820"
+        ],
+        "symbol": "ARCN1",
+        "date_name_changed": "2003-01-29",
+        "location": "11q23.3",
+        "name": "archain 1",
+        "date_modified": "2014-11-18",
+        "mgd_id": [
+          "MGI:2387591"
+        ],
+        "ucsc_id": "uc001ptq.4",
+        "prev_symbol": [
+          "COPD"
+        ],
+        "uniprot_ids": [
+          "P48444"
+        ],
+        "orphanet": 469958,
+        "ccds_id": [
+          "CCDS8400",
+          "CCDS44749"
+        ],
+        "ena": [
+          "X81197"
+        ],
+        "pubmed_id": [
+          7782067,
+          8854871
+        ],
+        "location_sortable": "11q23.3"
+      }
+    ]
+  }
+}
