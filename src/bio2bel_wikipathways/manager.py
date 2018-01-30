@@ -145,13 +145,17 @@ class Manager(object):
 
         pathways = parse_gmt_file(url=url)
 
+        log.info('connecting to HGNC Manager: {}'.format(self.connection))
+
         hgnc_manager = HgncManager(connection=self.connection)
 
+        # Dictionaries to map across identifiers
         entrez_to_hgnc_symbol = hgnc_manager.build_entrez_id_symbol_mapping()
-
         hgnc_symbol_id = hgnc_manager.build_hgnc_symbol_id_mapping()
 
         entrez_id_protein = {}
+
+        missing_entrez_ids = set()
 
         for pathway_name, wikipathways_id, gene_set in tqdm(pathways, desc='Loading database'):
 
@@ -166,7 +170,8 @@ class Manager(object):
                     hgnc_symbol = entrez_to_hgnc_symbol.get(entrez_id)
 
                     if not hgnc_symbol:
-                        log.warning("{} ENTREZ ID has no HGNC symbol".format(hgnc_symbol))
+                        log.warning("{} ENTREZ ID has no HGNC symbol".format(entrez_id))
+                        missing_entrez_ids.add(entrez_id)
                         continue
 
                     protein = Protein(entrez_id=entrez_id, hgnc_symbol=hgnc_symbol, hgnc_id=hgnc_symbol_id[hgnc_symbol])
@@ -174,6 +179,9 @@ class Manager(object):
                     self.session.add(protein)
 
                 protein.pathways.append(pathway)
+
+        if missing_entrez_ids:
+            log.warning("Total of {} missing ENTREZ ids".format(len(missing_entrez_ids)))
 
         self.session.commit()
 

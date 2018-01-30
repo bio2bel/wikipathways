@@ -39,7 +39,7 @@ def write_belns(file=None):
 
     write_namespace(
         namespace_name="Wikipathway Names",
-        namespace_keyword="WIKIPATHWAYS",
+        namespace_keyword="WPATHS",
         namespace_domain=NAMESPACE_DOMAIN_BIOPROCESS,
         author_name='Charles Tapley Hoyt',
         citation_name='FIXME',

@@ -21,8 +21,8 @@ class PathwayView(ModelView):
 class ProteinView(ModelView):
     """Protein view in Flask-admin"""
     column_searchable_list = (
-        Protein.wikipathways_id,
-        Protein.uniprot_id,
+        Protein.entrez_id,
+        Protein.hgnc_symbol,
         Protein.hgnc_id
     )
 

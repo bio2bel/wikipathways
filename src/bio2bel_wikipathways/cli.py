@@ -42,10 +42,6 @@ def populate(debug, connection, delete_first):
 
     m = Manager(connection=connection)
 
-    if delete_first or click.confirm('Drop first the database?'):
-        m.drop_all()
-        m.create_all()
-
     click.echo("populate tables")
     m.populate(url=None)
 

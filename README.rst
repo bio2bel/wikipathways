@@ -1,14 +1,11 @@
 Bio2BEL WikiPathways
 ================
-This package converts WikiPathways to BEL.
+This package converts WikiPathways to BEL. At the moment, the package parse, store, and export to a namespace all Homo sapiens pathways.
+Furthermore, a small wrapper around the database allows to explore through a Flask-admin interface the database and perform simple queries.
 
 Installation
 ------------
 This code can be installed with :code:`pip3 install git+https://github.com/bio2bel/wikipathways.git`
-
-Creating a Local Copy of the Namespace
---------------------------------------
-A BEL namespace can be generated with :code:`python3 -m bio2bel_wikipathways write -o ~/Downloads/wikipathways.belns`
 
 Citation
 --------
