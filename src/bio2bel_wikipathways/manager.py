@@ -181,13 +181,13 @@ class Manager(object):
                 protein.pathways.append(pathway)
 
         if missing_entrez_ids:
-            log.warning("Total of {} missing ENTREZ ids".format(len(missing_entrez_ids)))
+            log.warning("Total of {} missing ENTREZX")
 
         self.session.commit()
 
     """Methods to enrich BEL graphs"""
 
-    def get_pathway_graph(self, wikipathways_id):
+    def get_pathway_graph_by_id(self, wikipathways_id):
         """Returns a new graph corresponding to the pathway
 
         :param str wikipathways_id: wikipathways identifier

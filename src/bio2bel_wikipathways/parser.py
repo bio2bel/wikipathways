@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import requests
+from requests_file import FileAdapter
 
 from .constants import HOMO_SAPIENS_GENE_SETS
 
@@ -52,7 +53,11 @@ def parse_gmt_file(url=None):
     :rtype: list
     """
 
-    response = requests.get(url or HOMO_SAPIENS_GENE_SETS)
+    #Allow local file to be parsed
+    session = requests.session()
+    session.mount('file://', FileAdapter())
+
+    response = session.get(url or HOMO_SAPIENS_GENE_SETS)
 
     pathways = []
 
