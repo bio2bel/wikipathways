@@ -2,7 +2,6 @@
 
 """ This module contains the flask application to visualize the db"""
 
-import flask_admin
 from flask import Flask
 from flask_admin.contrib.sqla import ModelView
 
