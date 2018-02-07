@@ -83,6 +83,14 @@ class Manager(object):
         """
         return self.session.query(Pathway).filter(Pathway.name == pathway_name).one_or_none()
 
+    def query_pathway_by_name(self, query):
+        """Returns all pathways having the query in their names
+
+        :param query: query string
+        :rtype: list[Pathway]
+        """
+        return self.session.query(Pathway).filter(Pathway.name.contains(query)).all()
+
     def get_or_create_pathway(self, wikipathways_id, name=None):
         """Gets an pathway from the database or creates it
 

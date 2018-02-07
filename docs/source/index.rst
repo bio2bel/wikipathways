@@ -9,6 +9,8 @@ Bio2BEL WikiPathways
    manager
    models
    constants
+   parser
+   web
 
 Indices and tables
 ==================
