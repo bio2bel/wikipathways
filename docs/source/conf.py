@@ -20,7 +20,7 @@ project = 'Bio2BEL WikiPathways'
 copyright = '2018, Daniel Domingo-Fernández and Charles Tapley Hoyt'
 author = 'Daniel Domingo-Fernández and Charles Tapley Hoyt'
 
-release = '0.0.1'
+release = '0.0.1-dev'
 
 parsed_version = re.match(
     '(?P<major>\d+)\.(?P<minor>\d+)\.(?P<patch>\d+)(?:-(?P<release>[0-9A-Za-z-]+(?:\.[0-9A-Za-z-]+)*))?(?:\+(?P<build>[0-9A-Za-z-]+(?:\.[0-9A-Za-z-]+)*))?',
@@ -37,13 +37,13 @@ pygments_style = 'sphinx'
 todo_include_todos = True
 html_theme = 'sphinx_rtd_theme'
 html_static_path = []
-htmlhelp_basename = 'bioebel_keggdoc'
+htmlhelp_basename = 'bioebel_wikipathwaysdoc'
 latex_elements = {}
 latex_documents = [
     (master_doc, 'bio2bel_wikipathways.tex', 'Bio2BEL WikiPathways Documentation', 'Daniel Domingo-Fernández and Charles Tapley Hoyt', 'manual'),
 ]
 man_pages = [
-    (master_doc, 'bio2bel_kegg', 'Bio2BEL W Documentation', [author], 1)
+    (master_doc, 'bio2bel_wikipathways', 'Bio2BEL WikiPathways Documentation', [author], 1)
 ]
 texinfo_documents = [
     (master_doc, 'Bio2BEL WikiPathways', 'Bio2BEL WikiPathways Documentation', author, 'Bio2BEL WikiPathways', 'Serialize WikiPathways to BEL', 'Miscellaneous'),
