@@ -53,11 +53,16 @@ def parse_gmt_file(url=None):
     :rtype: list
     """
 
-    #Allow local file to be parsed
+    # Allow local file to be parsed
     session = requests.session()
     session.mount('file://', FileAdapter())
 
     response = session.get(url or HOMO_SAPIENS_GENE_SETS)
+
+    if response.status_code == 404:
+        raise FileNotFoundError(
+            'Wikipathways has updated their files, please visit this page "http://data.wikipathways.org/current/gmt/" '
+            'and change the URL in constants.py')
 
     pathways = []
 
