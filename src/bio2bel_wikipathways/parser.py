@@ -6,8 +6,18 @@ from requests_file import FileAdapter
 from .constants import HOMO_SAPIENS_GENE_SETS
 
 
+def _process_pathway_id(pathway_id):
+    """Processes the pathway id
+
+    :param str pathway_id: pathway id with suffix
+    :rtype: str
+    :return: processed pathway id
+    """
+    return pathway_id.split('_')[0]
+
+
 def _get_pathway_name(line):
-    """Split the pathway name word and returns the name
+    """Splits the pathway name word and returns the name
 
     :param line: first word from gmt file
     :rtype: str
@@ -17,7 +27,7 @@ def _get_pathway_name(line):
 
 
 def _get_pathway_id(pathway_info_url):
-    """Split the pathway info url and returns the id
+    """Splits the pathway info url and returns the id
 
     :param pathway_info_url: first word from gmt file
     :rtype: str
@@ -42,7 +52,7 @@ def _process_line(line):
         for word in line.split('\t')
     ]
 
-    return _get_pathway_name(processed_line[0]), _get_pathway_id(processed_line[1]), processed_line[2:]
+    return _get_pathway_name(processed_line[0]), _process_pathway_id(_get_pathway_id(processed_line[1])), processed_line[2:]
 
 
 def parse_gmt_file(url=None):
