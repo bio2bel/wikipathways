@@ -3,8 +3,8 @@
 """ This module contains the flask application to visualize the db"""
 
 from flask import Flask
+import flask_admin
 from flask_admin.contrib.sqla import ModelView
-
 from bio2bel_wikipathways.manager import Manager
 from bio2bel_wikipathways.models import *
 
