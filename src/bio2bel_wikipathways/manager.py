@@ -242,7 +242,7 @@ class Manager(object):
                 protein.pathways.append(pathway)
 
         if missing_entrez_ids:
-            log.warning("Total of {} missing ENTREZX")
+            log.warning("Total of {} missing ENTREZ".format(len(missing_entrez_ids)))
 
         self.session.commit()
 
