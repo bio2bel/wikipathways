@@ -1,11 +1,19 @@
 Bio2BEL WikiPathways |build| |coverage| |docs|
 ==============================================
-This package converts WikiPathways to BEL. At the moment, the package parse, store, and export to a namespace all Homo sapiens pathways.
-Furthermore, a small wrapper around the database allows to explore through a Flask-admin interface the database and perform simple queries.
+This package allows the enrichment of BEL networks with WikiPathways information by wrapping its RESTful API.
+Furthermore, it is integrated in the `ComPath environment <https://github.com/ComPath>`_ for pathway database comparison.
 
 Installation
 ------------
 This code can be installed with :code:`pip3 install git+https://github.com/bio2bel/wikipathways.git`
+
+Functionalities and Commands
+----------------------------
+Following, the main functionalities and commands to work with this package:
+
+1. Populate local database with WikiPathways info :code:`python3 -m bio2bel_wikipathways populate`
+2. Run an admin site for simple querying and exploration :code:`python3 -m bio2bel_wikipathways web` (http://localhost:5000/admin/)
+3. Export gene sets for programmatic use :code:`python3 -m bio2bel_wikipathways export`
 
 Citation
 --------
