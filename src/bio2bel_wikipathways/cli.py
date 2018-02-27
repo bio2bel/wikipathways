@@ -36,12 +36,18 @@ def main():
 @main.command()
 @click.option('-v', '--debug', count=True, help="Turn on debugging.")
 @click.option('-c', '--connection', help="Defaults to {}".format(DEFAULT_CACHE_CONNECTION))
-@click.option('-d', '--delete_first', is_flag=True)
-def populate(debug, connection, delete_first):
-    """Build the local version of the full WikiPathways."""
+@click.option('-d', '--reset-db', default=True)
+def populate(debug, connection, reset_db):
+    """Build the local version of WikiPathways."""
     set_debug_param(debug)
 
     m = Manager(connection=connection)
+
+    if reset_db is True:
+        log.info('Deleting the previous instance of the database')
+        m.drop_all()
+        log.info('Creating new models')
+        m.create_all()
 
     click.echo("populate tables")
     m.populate(url=None)
