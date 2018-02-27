@@ -7,6 +7,9 @@ Installation
 ------------
 This code can be installed with :code:`pip3 install git+https://github.com/bio2bel/wikipathways.git`
 
+Note that the `Bio2BEL HGNC <https://github.com/bio2bel/hgnc>`_ should be installed and loaded in order to map ENTREZ identifiers to HGNC Symbols and populate the database:
+You can load Bio2BEL HGNC by running the following command in your terminal: :code:`python3 -m bio2bel_hgnc populate`
+
 Functionalities and Commands
 ----------------------------
 Following, the main functionalities and commands to work with this package:
