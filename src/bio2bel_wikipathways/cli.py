@@ -85,9 +85,9 @@ def export(connection):
         ])
     )
 
-    log.info("Geneset exported to '{}/genesets.csv'".format(os.getcwd()))
+    log.info("Geneset exported to '{}/wikipathways_gene_sets.xlsx'".format(os.getcwd()))
 
-    genesets.to_csv('genesets.csv', index=False)
+    genesets.to_excel('wikipathways_gene_sets.xlsx', index=False)
 
 
 @main.command()
