@@ -77,7 +77,8 @@ class Manager(object):
         pathway_counter = Counter(itertools.chain(*pathways_lists))
 
         return {
-            pathway_wikipathways_id: (proteins_mapped, len(self.get_pathway_by_id(pathway_wikipathways_id).get_gene_set()))
+            pathway_wikipathways_id: (
+                proteins_mapped, len(self.get_pathway_by_id(pathway_wikipathways_id).get_gene_set()))
             for pathway_wikipathways_id, proteins_mapped in pathway_counter.items()
         }
 
@@ -185,13 +186,34 @@ class Manager(object):
 
         return pathway
 
-    def get_protein_by_wikipathways_id(self, wikipathways_id):
+    def get_or_create_protein(self, entrez_id, hgnc_symbol, hgnc_id):
+        """Gets an pathway from the database or creates it
+
+        :param str entrez_id: entrez identifier
+        :param str hgnc_symbol: hgnc symbol
+        :param str hgnc_id: hgnc identifier
+        :rtype: Protein
+        """
+        protein = self.get_protein_by_entrez_id(entrez_id)
+
+        if protein is None:
+            protein = Protein(
+                entrez_id=entrez_id,
+                hgnc_symbol=hgnc_symbol,
+                hgnc_id=hgnc_id
+            )
+
+            self.session.add(protein)
+
+        return protein
+
+    def get_protein_by_entrez_id(self, entrez_id):
         """Gets a protein by its wikipathways id
 
-        :param wikipathways_id: wikipathways identifier
+        :param entrez_id: entrez identifier
         :rtype: Optional[Protein]
         """
-        return self.session.query(Protein).filter(Protein.wikipathways_id == wikipathways_id).one_or_none()
+        return self.session.query(Protein).filter(Protein.entrez_id == entrez_id).one_or_none()
 
     def get_protein_by_hgnc_id(self, hgnc_id):
         """Gets a protein by its hgnc_id
@@ -249,8 +271,8 @@ class Manager(object):
 
                 if entrez_id in entrez_id_protein:
                     protein = entrez_id_protein[entrez_id]
-                else:
 
+                else:
                     hgnc_symbol = entrez_to_hgnc_symbol.get(entrez_id)
 
                     if not hgnc_symbol:
@@ -258,16 +280,17 @@ class Manager(object):
                         missing_entrez_ids.add(entrez_id)
                         continue
 
-                    protein = Protein(entrez_id=entrez_id, hgnc_symbol=hgnc_symbol, hgnc_id=hgnc_symbol_id[hgnc_symbol])
+                    protein = self.get_or_create_protein(entrez_id, hgnc_symbol, hgnc_symbol_id[hgnc_symbol])
                     entrez_id_protein[entrez_id] = protein
-                    self.session.add(protein)
 
-                protein.pathways.append(pathway)
+                if pathway not in protein.pathways:
+                    protein.pathways.append(pathway)
+
+            self.session.commit()
 
         if missing_entrez_ids:
             log.warning("Total of {} missing ENTREZ".format(len(missing_entrez_ids)))
 
-        self.session.commit()
 
     """Methods to enrich BEL graphs"""
 

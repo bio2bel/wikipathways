@@ -25,3 +25,42 @@ class TestParse(DatabaseMixin):
         pathway = self.manager.get_pathway_by_id('WP4022')
         self.assertIsNotNone(pathway, msg='Unable to find pathway')
         self.assertEqual(2, len(pathway.proteins))
+
+    def test_gene_query_1(self):
+        """Single protein query. This protein is associated with 3 pathways"""
+        enriched_pathways = self.manager.query_gene_set(['MAT2B'])
+        self.assertIsNotNone(enriched_pathways, msg='Enriching function is not working')
+
+        self.assertEqual(
+            {
+                'WP2333': (1, 3),
+            },
+            enriched_pathways
+        )
+
+    def test_gene_query_2(self):
+        """Multiple protein query"""
+        enriched_pathways = self.manager.query_gene_set(['UGT2B7', 'UGT2B4','CDKN1A'])
+        self.assertIsNotNone(enriched_pathways, msg='Enriching function is not working')
+
+        self.assertEqual(
+            {
+                'WP1604': (2, 2),
+                'WP3596': (1, 5),
+                'WP536': (1, 6)
+            },
+            enriched_pathways
+        )
+
+    def test_gene_query_3(self):
+        """Multiple protein query"""
+        enriched_pathways = self.manager.query_gene_set(['UGT2B7', 'UGT2B4'])
+        self.assertIsNotNone(enriched_pathways, msg='Enriching function is not working')
+
+        self.assertEqual(
+            {
+                'WP1604': (2, 2),
+                'WP536': (1, 6),
+            },
+            enriched_pathways
+        )
