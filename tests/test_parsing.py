@@ -32,14 +32,14 @@ class TestParse(DatabaseMixin):
         self.assertIsNotNone(enriched_pathways, msg='Enriching function is not working')
 
         self.assertEqual(
-            {
+            [
                 {
                     "pathway_id": "WP2333",
                     "pathway_name": "Trans-sulfuration pathway",
                     "mapped_proteins": 1,
                     "pathway_size": 3,
                 }
-            },
+            ],
             enriched_pathways
         )
 
@@ -48,26 +48,32 @@ class TestParse(DatabaseMixin):
         enriched_pathways = self.manager.query_gene_set(['UGT2B7', 'UGT2B4', 'CDKN1A'])
         self.assertIsNotNone(enriched_pathways, msg='Enriching function is not working')
 
-        self.assertEqual(
+        self.assertIn(
             {
-                {
-                    "pathway_id": "WP1604",
-                    "pathway_name": "Codeine and Morphine Metabolism",
-                    "mapped_proteins": 2,
-                    "pathway_size": 2,
-                },
-                {
-                    "pathway_id": "WP3596",
-                    "pathway_name": "miR-517 relationship with ARCN1 and USP1",
-                    "mapped_proteins": 1,
-                    "pathway_size": 5
-                },
-                {
-                    "pathway_id": "WP536",
-                    "pathway_name": "Calcium Regulation in the Cardiac Cell",
-                    "mapped_proteins": 1,
-                    "pathway_size": 6
-                }
+                "pathway_id": "WP536",
+                "pathway_name": "Calcium Regulation in the Cardiac Cell",
+                "mapped_proteins": 1,
+                "pathway_size": 6
+            },
+            enriched_pathways
+        )
+
+        self.assertIn(
+            {
+                "pathway_id": "WP1604",
+                "pathway_name": "Codeine and Morphine Metabolism",
+                "mapped_proteins": 2,
+                "pathway_size": 2,
+            },
+            enriched_pathways
+        )
+
+        self.assertIn(
+            {
+                "pathway_id": "WP3596",
+                "pathway_name": "miR-517 relationship with ARCN1 and USP1",
+                "mapped_proteins": 1,
+                "pathway_size": 5
             },
             enriched_pathways
         )
@@ -77,20 +83,33 @@ class TestParse(DatabaseMixin):
         enriched_pathways = self.manager.query_gene_set(['UGT2B7', 'UGT2B4'])
         self.assertIsNotNone(enriched_pathways, msg='Enriching function is not working')
 
-        self.assertEqual(
+        self.assertIn(
             {
-                {
-                    "pathway_id": "WP1604",
-                    "pathway_name": "Codeine and Morphine Metabolism",
-                    "mapped_proteins": 2,
-                    "pathway_size": 2,
-                },
-                {
-                    "pathway_id": "WP536",
-                    "pathway_name": "Calcium Regulation in the Cardiac Cell",
-                    "mapped_proteins": 1,
-                    "pathway_size": 6
-                }
+                "pathway_id": "WP1604",
+                "pathway_name": "Codeine and Morphine Metabolism",
+                "mapped_proteins": 2,
+                "pathway_size": 2,
             },
+            enriched_pathways
+        )
+
+        self.assertIn(
+            {
+                "pathway_id": "WP3596",
+                "pathway_name": "miR-517 relationship with ARCN1 and USP1",
+                "mapped_proteins": 1,
+                "pathway_size": 5
+            },
+            enriched_pathways
+        )
+
+        self.assertIn(
+            {
+                "pathway_id": "WP536",
+                "pathway_name": "Calcium Regulation in the Cardiac Cell",
+                "mapped_proteins": 1,
+                "pathway_size": 6
+            }
+            ,
             enriched_pathways
         )
