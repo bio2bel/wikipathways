@@ -95,16 +95,6 @@ class TestParse(DatabaseMixin):
 
         self.assertIn(
             {
-                "pathway_id": "WP3596",
-                "pathway_name": "miR-517 relationship with ARCN1 and USP1",
-                "mapped_proteins": 1,
-                "pathway_size": 5
-            },
-            enriched_pathways
-        )
-
-        self.assertIn(
-            {
                 "pathway_id": "WP536",
                 "pathway_name": "Calcium Regulation in the Cardiac Cell",
                 "mapped_proteins": 1,
