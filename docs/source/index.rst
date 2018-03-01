@@ -7,6 +7,7 @@ Bio2BEL WikiPathways
    :caption: Contents:
 
    manager
+   cli
    models
    constants
    parser
