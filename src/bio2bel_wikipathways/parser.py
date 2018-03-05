@@ -48,7 +48,7 @@ def _process_line(line):
     :return: genes set associated
     """
     processed_line = [
-        word
+        word.strip()
         for word in line.split('\t')
     ]
 
