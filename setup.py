@@ -16,7 +16,6 @@ INSTALL_REQUIRES = [
     'pybel[deployment]>=0.11.1',
     'sqlalchemy==1.1.15',
     'pandas',
-    'tqdm',
 ]
 EXTRAS_REQUIRE = {
     'web': ['flask', 'flask_admin'],
