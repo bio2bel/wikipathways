@@ -16,4 +16,4 @@ HGNC = 'HGNC'
 WIKIPATHWAYS = 'WIKIPATHWAYS'
 
 # Human gene sets
-HOMO_SAPIENS_GENE_SETS = 'http://data.wikipathways.org/current/gmt/wikipathways-20180210-gmt-Homo_sapiens.gmt'
+HOMO_SAPIENS_GENE_SETS = 'http://data.wikipathways.org/current/gmt/wikipathways-20180310-gmt-Homo_sapiens.gmt'
