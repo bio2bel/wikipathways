@@ -4,8 +4,8 @@
 This module populates the tables of bio2bel_wikipathways
 """
 
-import logging
 import itertools
+import logging
 from collections import Counter
 
 from bio2bel.utils import get_connection
@@ -16,9 +16,9 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from tqdm import tqdm
 
-from .parser import parse_gmt_file
 from .constants import MODULE_NAME, WIKIPATHWAYS
 from .models import Base, Pathway, Protein
+from .parser import parse_gmt_file
 
 __all__ = [
     'Manager'
@@ -113,7 +113,13 @@ class Manager(object):
         :param pathway_name: wikipathways name
         :rtype: Optional[Pathway]
         """
-        return self.session.query(Pathway).filter(Pathway.name == pathway_name).one_or_none()
+        pathways = self.session.query(Pathway).filter(Pathway.name == pathway_name).all()
+
+        # TODO: There are duplicate pathway names in WikiPathways
+        if not pathways:
+            return None
+
+        return pathways[0]
 
     def get_all_pathways(self):
         """Gets all pathways stored in the database
