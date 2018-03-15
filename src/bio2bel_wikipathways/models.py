@@ -64,6 +64,10 @@ class Pathway(Base):
             if protein.hgnc_symbol
         }
 
+    @property
+    def url(self):
+        return 'https://www.wikipathways.org/index.php/Pathway:{}'.format(self.wikipathways_id)
+
 
 class Protein(Base):
     """Genes Table"""
