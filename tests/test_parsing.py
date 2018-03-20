@@ -40,7 +40,7 @@ class TestParse(DatabaseMixin):
                     "pathway_size": 3,
                 }
             ],
-            enriched_pathways
+            enriched_pathways["WP2333"]
         )
 
     def test_gene_query_2(self):
@@ -55,7 +55,7 @@ class TestParse(DatabaseMixin):
                 "mapped_proteins": 1,
                 "pathway_size": 6
             },
-            enriched_pathways
+            enriched_pathways["WP536"]
         )
 
         self.assertIn(
@@ -65,7 +65,7 @@ class TestParse(DatabaseMixin):
                 "mapped_proteins": 2,
                 "pathway_size": 2,
             },
-            enriched_pathways
+            enriched_pathways["WP1604"]
         )
 
         self.assertIn(
@@ -75,7 +75,7 @@ class TestParse(DatabaseMixin):
                 "mapped_proteins": 1,
                 "pathway_size": 5
             },
-            enriched_pathways
+            enriched_pathways["WP3596"]
         )
 
     def test_gene_query_3(self):
@@ -90,7 +90,7 @@ class TestParse(DatabaseMixin):
                 "mapped_proteins": 2,
                 "pathway_size": 2,
             },
-            enriched_pathways
+            enriched_pathways["WP1604"]
         )
 
         self.assertIn(
@@ -101,5 +101,5 @@ class TestParse(DatabaseMixin):
                 "pathway_size": 6
             }
             ,
-            enriched_pathways
+            enriched_pathways["WP536"]
         )
