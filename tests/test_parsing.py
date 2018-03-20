@@ -32,14 +32,12 @@ class TestParse(DatabaseMixin):
         self.assertIsNotNone(enriched_pathways, msg='Enriching function is not working')
 
         self.assertEqual(
-            [
-                {
-                    "pathway_id": "WP2333",
-                    "pathway_name": "Trans-sulfuration pathway",
-                    "mapped_proteins": 1,
-                    "pathway_size": 3,
-                }
-            ],
+            {
+                "pathway_id": "WP2333",
+                "pathway_name": "Trans-sulfuration pathway",
+                "mapped_proteins": 1,
+                "pathway_size": 3,
+            },
             enriched_pathways["WP2333"]
         )
 
@@ -48,7 +46,7 @@ class TestParse(DatabaseMixin):
         enriched_pathways = self.manager.query_gene_set(['UGT2B7', 'UGT2B4', 'CDKN1A'])
         self.assertIsNotNone(enriched_pathways, msg='Enriching function is not working')
 
-        self.assertIn(
+        self.assertEqual(
             {
                 "pathway_id": "WP536",
                 "pathway_name": "Calcium Regulation in the Cardiac Cell",
@@ -58,7 +56,7 @@ class TestParse(DatabaseMixin):
             enriched_pathways["WP536"]
         )
 
-        self.assertIn(
+        self.assertEqual(
             {
                 "pathway_id": "WP1604",
                 "pathway_name": "Codeine and Morphine Metabolism",
@@ -68,7 +66,7 @@ class TestParse(DatabaseMixin):
             enriched_pathways["WP1604"]
         )
 
-        self.assertIn(
+        self.assertEqual(
             {
                 "pathway_id": "WP3596",
                 "pathway_name": "miR-517 relationship with ARCN1 and USP1",
@@ -83,7 +81,7 @@ class TestParse(DatabaseMixin):
         enriched_pathways = self.manager.query_gene_set(['UGT2B7', 'UGT2B4'])
         self.assertIsNotNone(enriched_pathways, msg='Enriching function is not working')
 
-        self.assertIn(
+        self.assertEqual(
             {
                 "pathway_id": "WP1604",
                 "pathway_name": "Codeine and Morphine Metabolism",
@@ -93,7 +91,7 @@ class TestParse(DatabaseMixin):
             enriched_pathways["WP1604"]
         )
 
-        self.assertIn(
+        self.assertEqual(
             {
                 "pathway_id": "WP536",
                 "pathway_name": "Calcium Regulation in the Cardiac Cell",
