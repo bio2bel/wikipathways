@@ -74,7 +74,8 @@ class TestParse(DatabaseMixin):
                 "pathway_id": "WP3596",
                 "pathway_name": "miR-517 relationship with ARCN1 and USP1",
                 "mapped_proteins": 1,
-                "pathway_size": 5
+                "pathway_size": 5,
+                "pathway_gene_set": {'USP1', 'ARCN1', 'CDKN1A', 'ID1', 'ID2'}
             },
             enriched_pathways["WP3596"]
         )
