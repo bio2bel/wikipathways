@@ -37,6 +37,7 @@ class TestParse(DatabaseMixin):
                 "pathway_name": "Trans-sulfuration pathway",
                 "mapped_proteins": 1,
                 "pathway_size": 3,
+                "pathway_gene_set": {'DNMT1', 'MAT2B', 'GCLM'}
             },
             enriched_pathways["WP2333"]
         )
@@ -51,7 +52,8 @@ class TestParse(DatabaseMixin):
                 "pathway_id": "WP536",
                 "pathway_name": "Calcium Regulation in the Cardiac Cell",
                 "mapped_proteins": 1,
-                "pathway_size": 6
+                "pathway_size": 6,
+                "pathway_gene_set": {'MIR6869', 'RGS5', 'UGT2B4', 'GNGT1', 'GNG11', 'KCNJ3'},
             },
             enriched_pathways["WP536"]
         )
@@ -62,6 +64,7 @@ class TestParse(DatabaseMixin):
                 "pathway_name": "Codeine and Morphine Metabolism",
                 "mapped_proteins": 2,
                 "pathway_size": 2,
+                "pathway_gene_set": {'UGT2B7', 'UGT2B4'}
             },
             enriched_pathways["WP1604"]
         )
@@ -87,6 +90,7 @@ class TestParse(DatabaseMixin):
                 "pathway_name": "Codeine and Morphine Metabolism",
                 "mapped_proteins": 2,
                 "pathway_size": 2,
+                "pathway_gene_set": {'UGT2B7', 'UGT2B4'}
             },
             enriched_pathways["WP1604"]
         )
@@ -96,7 +100,8 @@ class TestParse(DatabaseMixin):
                 "pathway_id": "WP536",
                 "pathway_name": "Calcium Regulation in the Cardiac Cell",
                 "mapped_proteins": 1,
-                "pathway_size": 6
+                "pathway_size": 6,
+                "pathway_gene_set": {'MIR6869', 'RGS5', 'UGT2B4', 'GNGT1', 'GNG11', 'KCNJ3'},
             }
             ,
             enriched_pathways["WP536"]
