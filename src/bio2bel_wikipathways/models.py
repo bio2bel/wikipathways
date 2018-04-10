@@ -65,6 +65,10 @@ class Pathway(Base):
         }
 
     @property
+    def resource_id(self):
+        return self.wikipathways_id
+
+    @property
     def url(self):
         return 'https://www.wikipathways.org/index.php/Pathway:{}'.format(self.wikipathways_id)
 
