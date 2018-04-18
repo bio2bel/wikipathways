@@ -16,15 +16,15 @@ class TestEnrich(DatabaseMixin):
     def test_enrich_wikipathway_pathway(self):
         graph_example = enrichment_graph()
 
-        enriched_graph = self.manager.enrich_wikipathways_pathway(graph_example)
+        self.manager.enrich_wikipathways_pathway(graph_example)
 
-        self.assertEqual(6, enriched_graph.number_of_nodes())  # 4 nodes + 2 new
-        self.assertEqual(5, enriched_graph.number_of_edges())  # 3 + 2 new
+        self.assertEqual(6, graph_example.number_of_nodes())  # 4 nodes + 2 new
+        self.assertEqual(5, graph_example.number_of_edges())  # 3 + 2 new
 
     def test_enrich_wikipathway_protein(self):
         graph_example = enrichment_graph()
 
-        enriched_graph = self.manager.enrich_wikipathways_protein(graph_example)
+        self.manager.enrich_wikipathways_protein(graph_example)
 
-        self.assertEqual(6, enriched_graph.number_of_nodes())  # 4 +  2 new pathways
-        self.assertEqual(5, enriched_graph.number_of_edges())  # 3 + 2 new
+        self.assertEqual(6, graph_example.number_of_nodes())  # 4 +  2 new pathways
+        self.assertEqual(5, graph_example.number_of_edges())  # 3 + 2 new
