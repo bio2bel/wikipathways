@@ -8,14 +8,13 @@ import itertools as itt
 import logging
 from collections import Counter
 
-from bio2bel.utils import get_connection
 from bio2bel_hgnc.manager import Manager as HgncManager
-from pybel.constants import PART_OF, FUNCTION, PROTEIN, BIOPROCESS, NAMESPACE, NAME
+from pybel.constants import BIOPROCESS, FUNCTION, NAME, NAMESPACE, PART_OF, PROTEIN
 from pybel.struct.graph import BELGraph
-from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker
 from tqdm import tqdm
 
+from bio2bel import bio2bel_populater
+from compath_utils import CompathManager
 from .constants import MODULE_NAME, WIKIPATHWAYS
 from .models import Base, Pathway, Protein
 from .parser import parse_gmt_file
@@ -28,34 +27,40 @@ log = logging.getLogger(__name__)
 logging.getLogger("urllib3").setLevel(logging.WARNING)
 
 
-class Manager(object):
-    def __init__(self, connection=None):
-        self.connection = get_connection(MODULE_NAME, connection)
-        self.engine = create_engine(self.connection)
-        self.session_maker = sessionmaker(bind=self.engine, autoflush=False, expire_on_commit=False)
-        self.session = self.session_maker()
-        self.create_all()
+class Manager(CompathManager):
+    module_name = MODULE_NAME
+    flask_admin_models = [Pathway, Protein]
+    pathway_model = Pathway
 
-    def create_all(self, check_first=True):
-        """Create tables for Bio2BEL WikiPathways"""
-        log.info('create table in {}'.format(self.engine.url))
-        Base.metadata.create_all(self.engine, checkfirst=check_first)
+    @property
+    def base(self):
+        return Base
 
-    def drop_all(self, check_first=True):
-        """Drop tables for Bio2BEL WikiPathways"""
-        log.info('drop tables in {}'.format(self.engine.url))
-        Base.metadata.drop_all(self.engine, checkfirst=check_first)
+    """Override views in _make_admin"""
 
-    @staticmethod
-    def ensure(connection=None):
-        """Checks and allows for a Manager to be passed to the function. """
-        if connection is None or isinstance(connection, str):
-            return Manager(connection=connection)
+    def _add_admin(self, app, **kwargs):
+        from flask_admin.contrib.sqla import ModelView
+        from flask_admin import Admin
 
-        if isinstance(connection, Manager):
-            return connection
+        class PathwayView(ModelView):
+            """Pathway view in Flask-admin"""
+            column_searchable_list = (
+                Pathway.wikipathways_id,
+                Pathway.name
+            )
 
-        raise TypeError
+        class ProteinView(ModelView):
+            """Protein view in Flask-admin"""
+            column_searchable_list = (
+                Protein.entrez_id,
+                Protein.hgnc_symbol,
+                Protein.hgnc_id
+            )
+
+        admin = Admin(app, **kwargs)
+        admin.add_view(PathwayView(Pathway, self.session))
+        admin.add_view(ProteinView(Protein, self.session))
+        return admin
 
     """Custom query methods"""
 
@@ -109,27 +114,6 @@ class Manager(object):
         :rtype: Optional[Pathway]
         """
         return self.session.query(Pathway).filter(Pathway.wikipathways_id == wikipathways_id).one_or_none()
-
-    def get_pathway_by_name(self, pathway_name):
-        """Gets a pathway by its wikipathways id
-
-        :param pathway_name: wikipathways name
-        :rtype: Optional[Pathway]
-        """
-        pathways = self.session.query(Pathway).filter(Pathway.name == pathway_name).all()
-
-        # TODO: There are duplicate pathway names in WikiPathways
-        if not pathways:
-            return None
-
-        return pathways[0]
-
-    def get_all_pathways(self):
-        """Gets all pathways stored in the database
-
-        :rtype: list[Pathway]
-        """
-        return self.session.query(Pathway).all()
 
     def get_pathway_names_to_ids(self):
         """Returns a dictionary of pathway names to ids
@@ -261,23 +245,14 @@ class Manager(object):
     def get_protein_by_hgnc_symbol(self, hgnc_symbol):
         """Gets a protein by its hgnc symbol
 
-        :param hgnc_id: hgnc identifier
+        :param hgnc_symbol: hgnc identifier
         :rtype: Optional[Protein]
         """
         return self.session.query(Protein).filter(Protein.hgnc_symbol == hgnc_symbol).one_or_none()
 
-    def export_genesets(self):
-        """Returns pathway - genesets mapping"""
-        return {
-            pathway.name: {
-                protein.hgnc_symbol
-                for protein in pathway.proteins
-            }
-            for pathway in self.session.query(Pathway).all()
-        }
-
     """Methods to populate the DB"""
 
+    @bio2bel_populater(MODULE_NAME)
     def populate(self, url=None):
         """Populates all tables
 
@@ -333,7 +308,7 @@ class Manager(object):
 
         :param str wikipathways_id: wikipathways identifier
         :rtype: pybel.BELGraph
-        :return A BEL Graph corresponding to the wikipathway id
+        :return: A BEL Graph corresponding to the wikipathway id
         """
 
         pathway = self.get_pathway_by_id(wikipathways_id)

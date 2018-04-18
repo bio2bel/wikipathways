@@ -8,6 +8,7 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
 
 from bio2bel_wikipathways.constants import HGNC, WIKIPATHWAYS
+from compath_utils import ComPathPathway
 
 Base = declarative_base()
 
@@ -24,7 +25,7 @@ protein_pathway = Table(
 )
 
 
-class Pathway(Base):
+class Pathway(Base, ComPathPathway):
     """Pathway Table"""
 
     __tablename__ = PATHWAY_TABLE_NAME
