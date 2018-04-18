@@ -242,12 +242,8 @@ class Manager(CompathManager):
     def enrich_wikipathways_pathway(self, graph):
         """Enrich all proteins belonging to wikipathways pathway nodes in the graph
 
-        :param graph: A BEL Graph
-        :type graph: pybel.BELGraph
-        :rtype: pybel.BELGraph
-        :return A BEL Graph
+        :param pybel.BELGraph graph: A BEL Graph
         """
-
         for node, data in graph.nodes(data=True):
 
             if data[FUNCTION] == BIOPROCESS and data[NAMESPACE] == WIKIPATHWAYS and NAME in data:
@@ -263,17 +259,11 @@ class Manager(CompathManager):
                         evidence='http://www.genome.jp/wikipathways/'
                     )
 
-        return graph
-
     def enrich_wikipathways_protein(self, graph):
         """Enrich all wikipathways pathways associated with proteins in the graph
 
-        :param graph: A BEL Graph
-        :type graph: pybel.BELGraph
-        :rtype: pybel.BELGraph
-        :return A BEL Graph
+        :param pybel.BELGraph graph: A BEL Graph
         """
-
         for node, data in graph.nodes(data=True):
 
             if data[FUNCTION] == PROTEIN and data[NAMESPACE] == 'HGNC':
@@ -288,5 +278,3 @@ class Manager(CompathManager):
                         citation='26481357',
                         evidence='https://www.wikipathways.org/index.php/Download_Pathways'
                     )
-
-        return graph
