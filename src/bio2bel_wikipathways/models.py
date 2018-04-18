@@ -25,7 +25,7 @@ protein_pathway = Table(
 )
 
 
-class Pathway(Base, ComPathPathway):
+class Pathway(Base):
     """Pathway Table"""
 
     __tablename__ = PATHWAY_TABLE_NAME
