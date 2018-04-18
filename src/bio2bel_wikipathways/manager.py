@@ -4,7 +4,6 @@
 This module populates the tables of bio2bel_wikipathways
 """
 
-import itertools as itt
 import logging
 from collections import Counter
 
@@ -31,6 +30,8 @@ class Manager(CompathManager):
     module_name = MODULE_NAME
     flask_admin_models = [Pathway, Protein]
     pathway_model = Pathway
+    pathway_model_identifier_column = Pathway.wikipathways_id
+    protein_model = Protein
 
     @property
     def base(self):
@@ -61,98 +62,6 @@ class Manager(CompathManager):
         admin.add_view(PathwayView(Pathway, self.session))
         admin.add_view(ProteinView(Protein, self.session))
         return admin
-
-    """Custom query methods"""
-
-    def query_gene_set(self, gene_set):
-        """Returns pathway counter dictionary
-
-        :param list[str] gene_set: gene set to be queried
-        :rtype: dict[str,dict]]
-        :return: Enriched pathways with pathway info and mapped pathways/total
-        """
-        proteins = self._query_proteins_in_hgnc_list(gene_set)
-
-        pathways_lists = [
-            protein.get_pathways_ids()
-            for protein in proteins
-        ]
-
-        # Flat the pathways lists and applies Counter to get the number matches in every mapped pathway
-        pathway_counter = Counter(itt.chain(*pathways_lists))
-
-        enrichment_results = dict()
-
-        for pathway_wikipathways_id, proteins_mapped in pathway_counter.items():
-            pathway = self.get_pathway_by_id(pathway_wikipathways_id)
-
-            pathway_gene_set = pathway.get_gene_set()  # Pathway gene set
-
-            enrichment_results[pathway.wikipathways_id] = {
-                "pathway_id": pathway.wikipathways_id,
-                "pathway_name": pathway.name,
-                "mapped_proteins": proteins_mapped,
-                "pathway_size": len(pathway_gene_set),
-                "pathway_gene_set": pathway_gene_set,
-            }
-
-        return enrichment_results
-
-    def _query_proteins_in_hgnc_list(self, gene_set):
-        """Returns the proteins in the database within the gene set query
-
-        :param list[str] gene_set: hgnc symbol lists
-        :rtype: list[bio2bel_wikipathways.models.Protein]
-        :return: list of proteins
-        """
-        return self.session.query(Protein).filter(Protein.hgnc_symbol.in_(gene_set)).all()
-
-    def get_pathway_by_id(self, wikipathways_id):
-        """Gets a pathway by its wikipathways id
-
-        :param wikipathways_id: wikipathways identifier
-        :rtype: Optional[Pathway]
-        """
-        return self.session.query(Pathway).filter(Pathway.wikipathways_id == wikipathways_id).one_or_none()
-
-    def get_pathway_names_to_ids(self):
-        """Returns a dictionary of pathway names to ids
-
-        :rtype: dict[str,str]
-        """
-        human_pathways = self.get_all_pathways()
-
-        return {
-            pathway.name: pathway.wikipathways_id
-            for pathway in human_pathways
-        }
-
-    def get_all_hgnc_symbols(self):
-        """Returns the set of genes present in all WikiPathways Pathways
-
-        :rtype: set
-        """
-        return {
-            gene.hgnc_symbol
-            for pathway in self.get_all_pathways()
-            for gene in pathway.proteins
-            if pathway.proteins
-        }
-
-    def get_pathway_size_distribution(self):
-        """Returns pathway sizes
-
-        :rtype: dict
-        :return: pathway sizes
-        """
-
-        pathways = self.get_all_pathways()
-
-        return {
-            pathway.name: len(pathway.proteins)
-            for pathway in pathways
-            if pathway.proteins
-        }
 
     def get_gene_distribution(self):
         """Returns the proteins in the database within the gene set query

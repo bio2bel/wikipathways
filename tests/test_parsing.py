@@ -31,6 +31,8 @@ class TestParse(DatabaseMixin):
         enriched_pathways = self.manager.query_gene_set(['MAT2B'])
         self.assertIsNotNone(enriched_pathways, msg='Enriching function is not working')
 
+        self.assertIn('WP2333', enriched_pathways, msg='Keys: {}'.format(enriched_pathways.keys()))
+
         self.assertEqual(
             {
                 "pathway_id": "WP2333",
