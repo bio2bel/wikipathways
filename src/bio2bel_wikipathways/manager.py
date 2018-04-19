@@ -5,15 +5,14 @@ This module populates the tables of bio2bel_wikipathways
 """
 
 import logging
-from collections import Counter
 
-from bio2bel_hgnc.manager import Manager as HgncManager
+from compath_utils import CompathManager
 from pybel.constants import BIOPROCESS, FUNCTION, NAME, NAMESPACE, PART_OF, PROTEIN
 from pybel.struct.graph import BELGraph
 from tqdm import tqdm
 
 from bio2bel import bio2bel_populater
-from compath_utils import CompathManager
+from bio2bel_hgnc.manager import Manager as HgncManager
 from .constants import MODULE_NAME, WIKIPATHWAYS
 from .models import Base, Pathway, Protein
 from .parser import parse_gmt_file
@@ -62,24 +61,6 @@ class Manager(CompathManager):
         admin.add_view(PathwayView(Pathway, self.session))
         admin.add_view(ProteinView(Protein, self.session))
         return admin
-
-    def get_gene_distribution(self):
-        """Returns the proteins in the database within the gene set query
-
-        :rtype: dict
-        :return: pathway sizes
-        """
-
-        gene_counter = Counter()
-
-        for pathway in self.get_all_pathways():
-            if not pathway.proteins:
-                continue
-
-            for gene in pathway.proteins:
-                gene_counter[gene.hgnc_symbol] += 1
-
-        return gene_counter
 
     def query_pathway_by_name(self, query, limit=None):
         """Returns all pathways having the query in their names
