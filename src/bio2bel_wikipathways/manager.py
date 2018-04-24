@@ -6,13 +6,12 @@ This module populates the tables of bio2bel_wikipathways
 
 import logging
 
+from bio2bel_hgnc.manager import Manager as HgncManager
 from compath_utils import CompathManager
 from pybel.constants import BIOPROCESS, FUNCTION, NAME, NAMESPACE, PART_OF, PROTEIN
 from pybel.struct.graph import BELGraph
 from tqdm import tqdm
 
-from bio2bel import bio2bel_populater
-from bio2bel_hgnc.manager import Manager as HgncManager
 from .constants import MODULE_NAME, WIKIPATHWAYS
 from .models import Base, Pathway, Protein
 from .parser import parse_gmt_file
@@ -26,6 +25,8 @@ logging.getLogger("urllib3").setLevel(logging.WARNING)
 
 
 class Manager(CompathManager):
+    """Bio2BEL Manager for WikiPathways."""
+
     module_name = MODULE_NAME
     flask_admin_models = [Pathway, Protein]
     pathway_model = Pathway
@@ -33,7 +34,7 @@ class Manager(CompathManager):
     protein_model = Protein
 
     @property
-    def base(self):
+    def _base(self):
         return Base
 
     """Override views in _make_admin"""
@@ -142,7 +143,6 @@ class Manager(CompathManager):
 
     """Methods to populate the DB"""
 
-    @bio2bel_populater(MODULE_NAME)
     def populate(self, url=None):
         """Populates all tables
 
