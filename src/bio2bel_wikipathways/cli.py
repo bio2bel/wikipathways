@@ -1,20 +1,16 @@
 # -*- coding: utf-8 -*-
 
-from __future__ import print_function
-
+import click
 import logging
 import os
-
-import click
 from pandas import DataFrame, Series
 
-from bio2bel import build_cli
 from bio2bel_wikipathways.constants import DEFAULT_CACHE_CONNECTION
 from bio2bel_wikipathways.manager import Manager
 
 log = logging.getLogger(__name__)
 
-main = build_cli(Manager)
+main = Manager.get_cli()
 
 
 @main.command()
