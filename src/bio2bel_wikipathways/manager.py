@@ -165,7 +165,7 @@ class Manager(CompathManager):
 
         for pathway_name, wikipathways_id, gene_set in tqdm(pathways, desc='Loading database'):
 
-            pathway = self.get_or_create_pathway(wikipathways_id=wikipathways_id, name=pathway_name)
+            pathway = self.get_or_create_pathway(wikipathways_id=wikipathways_id, name=pathway_name.strip())
 
             for entrez_id in gene_set:
 
