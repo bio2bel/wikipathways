@@ -1,5 +1,5 @@
-Bio2BEL WikiPathways |build| |coverage| |documentation|
-=======================================================
+Bio2BEL WikiPathways |build| |coverage| |documentation| |zenodo|
+================================================================
 This package allows the enrichment of BEL networks with WikiPathways information by wrapping its RESTful API.
 Furthermore, it is integrated in the `ComPath environment <https://github.com/ComPath>`_ for pathway database
 comparison.
@@ -78,3 +78,6 @@ Citation
 
 .. |pypi_license| image:: https://img.shields.io/pypi/l/bio2bel_wikipathways.svg
     :alt: MIT License
+
+.. |zenodo| image:: https://zenodo.org/badge/118924155.svg
+    :target: https://zenodo.org/badge/latestdoi/118924155
