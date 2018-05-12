@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
 
-"""
-This module populates the tables of bio2bel_wikipathways
-"""
+"""This module populates the tables of bio2bel_wikipathways."""
 
 import logging
 
@@ -70,7 +68,6 @@ class Manager(CompathManager):
         :param Optional[int] limit: limit result query
         :rtype: list[Pathway]
         """
-
         q = self.session.query(Pathway).filter(Pathway.name.contains(query))
 
         if limit:
@@ -148,19 +145,17 @@ class Manager(CompathManager):
 
         :param Optional[str] url: url from gmt file
         """
+        hgnc_manager = HgncManager(connection=self.connection)
+        if not hgnc_manager.is_populated():
+            hgnc_manager.populate()
 
         pathways = parse_gmt_file(url=url)
-
-        log.info('connecting to HGNC Manager: {}'.format(self.connection))
-
-        hgnc_manager = HgncManager(connection=self.connection)
 
         # Dictionaries to map across identifiers
         entrez_to_hgnc_symbol = hgnc_manager.build_entrez_id_symbol_mapping()
         hgnc_symbol_id = hgnc_manager.build_hgnc_symbol_id_mapping()
 
         entrez_id_protein = {}
-
         missing_entrez_ids = set()
 
         for pathway_name, wikipathways_id, gene_set in tqdm(pathways, desc='Loading database'):
