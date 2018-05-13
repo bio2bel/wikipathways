@@ -62,7 +62,7 @@ class Manager(CompathManager):
         return admin
 
     def query_pathway_by_name(self, query, limit=None):
-        """Returns all pathways having the query in their names
+        """Return all pathways having the query in their names.
 
         :param query: query string
         :param Optional[int] limit: limit result query
@@ -76,7 +76,7 @@ class Manager(CompathManager):
         return q.all()
 
     def get_or_create_pathway(self, wikipathways_id, name=None):
-        """Gets an pathway from the database or creates it
+        """Get an pathway from the database or creates it.
 
         :param str wikipathways_id: wikipathways identifier
         :param Optional[str] name: name of the pathway
@@ -94,7 +94,7 @@ class Manager(CompathManager):
         return pathway
 
     def get_or_create_protein(self, entrez_id, hgnc_symbol, hgnc_id):
-        """Gets an pathway from the database or creates it
+        """Get an pathway from the database or creates it.
 
         :param str entrez_id: entrez identifier
         :param str hgnc_symbol: hgnc symbol
@@ -115,7 +115,7 @@ class Manager(CompathManager):
         return protein
 
     def get_protein_by_entrez_id(self, entrez_id):
-        """Gets a protein by its wikipathways id
+        """Get a protein by its wikipathways id.
 
         :param entrez_id: entrez identifier
         :rtype: Optional[Protein]
@@ -123,7 +123,7 @@ class Manager(CompathManager):
         return self.session.query(Protein).filter(Protein.entrez_id == entrez_id).one_or_none()
 
     def get_protein_by_hgnc_id(self, hgnc_id):
-        """Gets a protein by its hgnc_id
+        """Get a protein by its hgnc_id.
 
         :param hgnc_id: hgnc_id
         :rtype: Optional[Protein]
@@ -131,7 +131,7 @@ class Manager(CompathManager):
         return self.session.query(Protein).filter(Protein.hgnc_id == hgnc_id).one_or_none()
 
     def get_protein_by_hgnc_symbol(self, hgnc_symbol):
-        """Gets a protein by its hgnc symbol
+        """Get a protein by its hgnc symbol.
 
         :param hgnc_symbol: hgnc identifier
         :rtype: Optional[Protein]
@@ -141,7 +141,7 @@ class Manager(CompathManager):
     """Methods to populate the DB"""
 
     def populate(self, url=None):
-        """Populates all tables
+        """Populate all tables.
 
         :param Optional[str] url: url from gmt file
         """
@@ -189,7 +189,7 @@ class Manager(CompathManager):
     """Methods to enrich BEL graphs"""
 
     def get_pathway_graph_by_id(self, wikipathways_id):
-        """Returns a new graph corresponding to the pathway
+        """Return a new graph corresponding to the pathway.
 
         :param str wikipathways_id: wikipathways identifier
         :rtype: pybel.BELGraph
@@ -216,7 +216,7 @@ class Manager(CompathManager):
         return graph
 
     def enrich_wikipathways_pathway(self, graph):
-        """Enrich all proteins belonging to wikipathways pathway nodes in the graph
+        """Enrich all proteins belonging to wikipathways pathway nodes in the graph.
 
         :param pybel.BELGraph graph: A BEL Graph
         """
@@ -236,7 +236,7 @@ class Manager(CompathManager):
                     )
 
     def enrich_wikipathways_protein(self, graph):
-        """Enrich all wikipathways pathways associated with proteins in the graph
+        """Enrich all wikipathways pathways associated with proteins in the graph.
 
         :param pybel.BELGraph graph: A BEL Graph
         """
