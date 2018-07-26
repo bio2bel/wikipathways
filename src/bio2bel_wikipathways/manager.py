@@ -61,6 +61,16 @@ class Manager(CompathManager):
         admin.add_view(ProteinView(Protein, self.session))
         return admin
 
+    def summarize(self):
+        """Summarize the database.
+
+        :rtype: dict[str,int]
+        """
+        return dict(
+            pathways=self._count_model(Pathway),
+            proteins=self._count_model(Protein),
+        )
+
     def query_pathway_by_name(self, query, limit=None):
         """Return all pathways having the query in their names.
 
