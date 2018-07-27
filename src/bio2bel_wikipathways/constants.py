@@ -6,6 +6,8 @@ import os
 
 from bio2bel.utils import get_connection, get_data_dir
 
+VERSION = '0.1.0-dev'
+
 MODULE_NAME = 'wikipathways'
 DATA_DIR = get_data_dir(MODULE_NAME)
 DEFAULT_CACHE_CONNECTION = get_connection(MODULE_NAME)

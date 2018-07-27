@@ -13,7 +13,9 @@ Citation
 - Kelder, T., et al. WikiPathways: building research communities on biological pathways. Nucleic Acids Res. 2012 Jan;40(Database issue):D1301-7
 
 """
+
 from .manager import Manager
+from .utils import get_version
 
 __version__ = '0.1.0-dev'
 
