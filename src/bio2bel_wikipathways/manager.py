@@ -221,13 +221,7 @@ class Manager(CompathManager):
         pathway_node = pathway.serialize_to_pathway_node()
 
         for protein in pathway.proteins:
-            graph.add_qualified_edge(
-                pathway_node,
-                protein.serialize_to_protein_node(),
-                relation=PART_OF,
-                citation='27899662',
-                evidence='http://www.genome.jp/wikipathways/'
-            )
+            graph.add_part_of(protein.serialize_to_protein_node(), pathway_node)
 
         return graph
 
@@ -243,13 +237,7 @@ class Manager(CompathManager):
                 pathway = self.get_pathway_by_name(data[NAME])
 
                 for protein in pathway.proteins:
-                    graph.add_qualified_edge(
-                        protein.serialize_to_protein_node(),
-                        node,
-                        relation=PART_OF,
-                        citation='27899662',
-                        evidence='http://www.genome.jp/wikipathways/'
-                    )
+                    graph.add_part_of(protein.serialize_to_protein_node(), node)
 
     def enrich_wikipathways_protein(self, graph):
         """Enrich all wikipathways pathways associated with proteins in the graph.
@@ -263,10 +251,4 @@ class Manager(CompathManager):
                 protein = self.get_protein_by_hgnc_symbol(data[NAME])
 
                 for pathway in protein.pathways:
-                    graph.add_qualified_edge(
-                        node,
-                        pathway.serialize_to_pathway_node(),
-                        relation=PART_OF,
-                        citation='26481357',
-                        evidence='https://www.wikipathways.org/index.php/Download_Pathways'
-                    )
+                    graph.add_part_of(node, pathway.serialize_to_pathway_node())
