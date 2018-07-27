@@ -31,6 +31,12 @@ class Manager(CompathManager):
     pathway_model_identifier_column = Pathway.wikipathways_id
     protein_model = Protein
 
+    identifiers_recommended = 'WikiPathways'
+    identifiers_pattern = 'WP\d{1,5}(\_r\d+)?$'
+    identifiers_miriam = 'MIR:00000076'
+    identifiers_namespace = 'wikipathways'
+    identifiers_url = 'http://identifiers.org/wikipathways/'
+
     @property
     def _base(self):
         return Base
