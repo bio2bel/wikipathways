@@ -2,13 +2,11 @@
 
 """WikiPathways database models"""
 
-from pybel.dsl import bioprocess, protein
 from sqlalchemy import Column, ForeignKey, Integer, String, Table
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
 
-from bio2bel_wikipathways.constants import HGNC, WIKIPATHWAYS
-from compath_utils import ComPathPathway
+from pybel.dsl import bioprocess, protein
 
 Base = declarative_base()
 
@@ -49,7 +47,7 @@ class Pathway(Base):
         :rtype: pybel.dsl.bioprocess
         """
         return bioprocess(
-            namespace=WIKIPATHWAYS,
+            namespace='wikipathways',
             name=str(self.name),
             identifier=str(self.wikipathways_id)
         )
@@ -93,7 +91,7 @@ class Protein(Base):
         :rtype: pybel.dsl.protein
         """
         return protein(
-            namespace=HGNC,
+            namespace='hgnc',
             name=self.hgnc_symbol,
             identifier=str(self.hgnc_id)
         )
