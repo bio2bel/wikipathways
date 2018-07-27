@@ -4,16 +4,20 @@
 
 import logging
 
-from compath_utils import CompathManager
-from pybel.constants import BIOPROCESS, FUNCTION, NAME, NAMESPACE, PART_OF, PROTEIN
-from pybel.struct.graph import BELGraph
 from flask_admin import Admin
 from flask_admin.contrib.sqla import ModelView
 from tqdm import tqdm
 
 import bio2bel_hgnc
+from bio2bel.manager.bel_manager import BELManagerMixin
+from bio2bel.manager.flask_manager import FlaskMixin
+from bio2bel.manager.namespace_manager import BELNamespaceManagerMixin
+from compath_utils import CompathManager
+from pybel.constants import BIOPROCESS, FUNCTION, NAME, NAMESPACE, PROTEIN
+from pybel.manager.models import NamespaceEntry
+from pybel.struct.graph import BELGraph
 from .constants import MODULE_NAME, WIKIPATHWAYS
-from .models import Base, Pathway, Protein
+from .models import Base, Pathway, Protein, protein_pathway
 from .parser import parse_gmt_file
 
 __all__ = [
@@ -24,12 +28,13 @@ log = logging.getLogger(__name__)
 logging.getLogger("urllib3").setLevel(logging.WARNING)
 
 
-class Manager(CompathManager):
+class Manager(CompathManager, FlaskMixin, BELNamespaceManagerMixin, BELManagerMixin):
     """Bio2BEL Manager for WikiPathways."""
 
     module_name = MODULE_NAME
+
     flask_admin_models = [Pathway, Protein]
-    pathway_model = Pathway
+    namespace_model = pathway_model = Pathway
     pathway_model_identifier_column = Pathway.wikipathways_id
     protein_model = Protein
 
@@ -204,19 +209,69 @@ class Manager(CompathManager):
 
     """Methods to enrich BEL graphs"""
 
+    def to_bel(self):
+        """Return a new graph corresponding to the pathway.
+
+        :param str wikipathways_id: wikipathways identifier
+        :rtype: Optional[pybel.BELGraph]
+        :return: A BEL Graph corresponding to the wikipathway id
+
+        Example Usage:
+
+        >>> manager = Manager()
+        >>> manager.get_pathway_graph_by_id('WP61') # Notch signaling pathway
+        """
+        graph = BELGraph(
+            name='WikiPathways Associations',
+            version='1.0.0',
+        )
+
+        wikipathways_namespace = self.upload_bel_namespace()
+        graph.namespace_url[wikipathways_namespace.keyword] = wikipathways_namespace.url
+
+        hgnc_manager = bio2bel_hgnc.Manager(engine=self.engine, session=self.session)
+        hgnc_namespace = hgnc_manager.upload_bel_namespace()
+        graph.namespace_url[hgnc_namespace.keyword] = hgnc_namespace.url
+
+        ppas = self.session.query(protein_pathway) # protein pathway associations
+
+        for pathway in tqdm(self.get_all_pathways(), total=self._count_model(Pathway)):
+            for protein in pathway.proteins:
+                pathway_bel = pathway.serialize_to_pathway_node()
+                protein_bel = protein.serialize_to_protein_node()
+                graph.add_part_of(protein_bel, pathway_bel)
+
+        return graph
+
+
     def get_pathway_graph_by_id(self, wikipathways_id):
         """Return a new graph corresponding to the pathway.
 
         :param str wikipathways_id: wikipathways identifier
-        :rtype: pybel.BELGraph
+        :rtype: Optional[pybel.BELGraph]
         :return: A BEL Graph corresponding to the wikipathway id
-        """
 
+        Example Usage:
+
+        >>> manager = Manager()
+        >>> manager.get_pathway_graph_by_id('WP61') # Notch signaling pathway
+        """
         pathway = self.get_pathway_by_id(wikipathways_id)
+
+        if pathway is None:
+            return
 
         graph = BELGraph(
             name='{} graph'.format(pathway.name),
+            version='1.0.0',
         )
+
+        wikipathways_namespace = self.upload_bel_namespace()
+        graph.namespace_url[wikipathways_namespace.keyword] = wikipathways_namespace.url
+
+        hgnc_manager = bio2bel_hgnc.Manager(engine=self.engine, session=self.session)
+        hgnc_namespace = hgnc_manager.upload_bel_namespace()
+        graph.namespace_url[hgnc_namespace.keyword] = hgnc_namespace.url
 
         pathway_node = pathway.serialize_to_pathway_node()
 
@@ -231,11 +286,8 @@ class Manager(CompathManager):
         :param pybel.BELGraph graph: A BEL Graph
         """
         for node, data in graph.nodes(data=True):
-
             if data[FUNCTION] == BIOPROCESS and data[NAMESPACE] == WIKIPATHWAYS and NAME in data:
-
                 pathway = self.get_pathway_by_name(data[NAME])
-
                 for protein in pathway.proteins:
                     graph.add_part_of(protein.serialize_to_protein_node(), node)
 
@@ -245,10 +297,25 @@ class Manager(CompathManager):
         :param pybel.BELGraph graph: A BEL Graph
         """
         for node, data in graph.nodes(data=True):
-
             if data[FUNCTION] == PROTEIN and data[NAMESPACE] == 'HGNC':
-
                 protein = self.get_protein_by_hgnc_symbol(data[NAME])
-
                 for pathway in protein.pathways:
                     graph.add_part_of(node, pathway.serialize_to_pathway_node())
+
+    def _create_namespace_entry_from_model(self, model, namespace):
+        """Create a namespace entry from the model.
+
+        :param Pathway model: The model to convert
+        :type namespace: pybel.manager.models.Namespace
+        :rtype: Optional[pybel.manager.models.NamespaceEntry]
+        """
+        return NamespaceEntry(encoding='B', name=model.name, identifier=model.wikipathways_id, namespace=namespace)
+
+    @staticmethod
+    def _get_identifier(model):
+        """Given an instance of namespace_model, extract its identifier.
+
+        :param Pathway model: The model to convert
+        :rtype: str
+        """
+        return model.wikipathways_id
