@@ -7,6 +7,8 @@ import logging
 from compath_utils import CompathManager
 from pybel.constants import BIOPROCESS, FUNCTION, NAME, NAMESPACE, PART_OF, PROTEIN
 from pybel.struct.graph import BELGraph
+from flask_admin import Admin
+from flask_admin.contrib.sqla import ModelView
 from tqdm import tqdm
 
 import bio2bel_hgnc
@@ -44,8 +46,6 @@ class Manager(CompathManager):
     """Override views in _make_admin"""
 
     def _add_admin(self, app, **kwargs):
-        from flask_admin.contrib.sqla import ModelView
-        from flask_admin import Admin
 
         class PathwayView(ModelView):
             """Pathway view in Flask-admin"""
