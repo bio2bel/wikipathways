@@ -15,7 +15,7 @@ Citation
 """
 from .manager import Manager
 
-__version__ = '0.0.13-dev'
+__version__ = '0.1.0-dev'
 
 __title__ = 'bio2bel_wikipathways'
 __description__ = "A package for converting Wikipathways to BEL"
