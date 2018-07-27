@@ -12,10 +12,10 @@ META_PATH = os.path.join('src', 'bio2bel_{}'.format(BIO2BEL_MODULE), '__init__.p
 INSTALL_REQUIRES = [
     'click',
     'tqdm',
-    'bio2bel>=0.0.12',
+    'bio2bel>=0.1.0',
     'compath_utils>=0.0.5',
     'bio2bel_hgnc>=0.0.7',
-    'pybel>=0.11.2',
+    'pybel>=0.11.10',
     'sqlalchemy',
     'pandas',
 ]
