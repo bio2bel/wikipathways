@@ -4,12 +4,12 @@
 
 import logging
 
-from bio2bel_hgnc.manager import Manager as HgncManager
 from compath_utils import CompathManager
 from pybel.constants import BIOPROCESS, FUNCTION, NAME, NAMESPACE, PART_OF, PROTEIN
 from pybel.struct.graph import BELGraph
 from tqdm import tqdm
 
+import bio2bel_hgnc
 from .constants import MODULE_NAME, WIKIPATHWAYS
 from .models import Base, Pathway, Protein
 from .parser import parse_gmt_file
@@ -161,7 +161,7 @@ class Manager(CompathManager):
 
         :param Optional[str] url: url from gmt file
         """
-        hgnc_manager = HgncManager(connection=self.connection)
+        hgnc_manager = bio2bel_hgnc.Manager(engine=self.engine, session=self.session)
         if not hgnc_manager.is_populated():
             hgnc_manager.populate()
 
