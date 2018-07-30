@@ -1,15 +1,23 @@
 # -*- coding: utf-8 -*-
-""" This module contains all test constants"""
 
+"""Test constants for Bio2BEL WikiPathways."""
+
+import logging
 import os
 import pathlib
 import tempfile
 import unittest
 
-from bio2bel_hgnc.manager import Manager as HgncManager
-
+import bio2bel_hgnc
+import pybel
+from bio2bel.manager.connection_manager import build_engine_session
+from bio2bel_wikipathways.constants import HGNC, WIKIPATHWAYS
 from bio2bel_wikipathways.manager import Manager
-from bio2bel_wikipathways.constants import WIKIPATHWAYS, HGNC
+from pybel.constants import DECREASES, INCREASES, PART_OF, RELATION
+from pybel.dsl import bioprocess, gene, protein
+from pybel.struct.graph import BELGraph
+
+log = logging.getLogger(__name__)
 
 dir_path = os.path.dirname(os.path.realpath(__file__))
 resources_path = os.path.join(dir_path, 'resources')
@@ -18,10 +26,6 @@ gene_sets_path = os.path.join(resources_path, 'test_gmt_file.gmt')
 
 hgnc_test_path = os.path.join(resources_path, 'hgnc_test.json')
 hcop_test_path = os.path.join(resources_path, 'hcop_test.txt')
-
-from pybel.dsl import protein, gene, bioprocess
-from pybel.struct.graph import BELGraph
-from pybel.constants import *
 
 
 class DatabaseMixin(unittest.TestCase):
@@ -34,19 +38,22 @@ class DatabaseMixin(unittest.TestCase):
 
         log.info('Test generated connection string %s', cls.connection)
 
-        # create temporary database
-        cls.manager = Manager(cls.connection)
+        cls.engine, cls.session = build_engine_session(connection=cls.connection)
 
-        """HGNC Manager"""
+        # PyBEL manager
+        cls.pybel_manager = pybel.Manager(engine=cls.engine, session=cls.session)
+        cls.pybel_manager.create_all()
 
-        cls.hgnc_manager = HgncManager(connection=cls.connection)
-
+        # HGNC manager
+        cls.hgnc_manager = bio2bel_hgnc.Manager(engine=cls.engine, session=cls.session)
         cls.hgnc_manager.create_all()
-
         cls.hgnc_manager.populate(
             hgnc_file_path=hgnc_test_path,
             hcop_file_path=hcop_test_path,
         )
+
+        # create temporary database
+        cls.manager = Manager(engine=cls.engine, session=cls.session)
 
         # fill temporary database with test data
         cls.manager.populate(
@@ -58,8 +65,9 @@ class DatabaseMixin(unittest.TestCase):
         """Closes the connection in the manager and deletes the temporary database"""
         cls.manager.drop_all()
         cls.hgnc_manager.drop_all()
-        cls.manager.session.close()
-        cls.hgnc_manager.session.close()
+        cls.pybel_manager.drop_all()
+
+        cls.session.close()
         os.close(cls.fd)
         os.remove(cls.path)
 
@@ -71,7 +79,7 @@ pathway_a = bioprocess(namespace=WIKIPATHWAYS, name='Codeine and Morphine Metabo
 
 
 def enrichment_graph():
-    """Simple test graph with 2 proteins, one gene, and one kegg pathway all contained in HGNC"""
+    """Build a simple test graph with 2 proteins, one gene, and one kegg pathway all contained in HGNC."""
 
     graph = BELGraph(
         name='My test graph for enrichment',
