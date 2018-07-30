@@ -1,8 +1,8 @@
 click
 tqdm
 bio2bel>=0.1.0
-compath_utils>=0.0.5
-bio2bel_hgnc>=0.0.7
+compath_utils>=0.1.0
+bio2bel_hgnc>=0.1.0
 pybel>=0.11.10
 sqlalchemy
 pandas

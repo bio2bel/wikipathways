@@ -13,14 +13,17 @@ INSTALL_REQUIRES = [
     'click',
     'tqdm',
     'bio2bel>=0.1.0',
-    'compath_utils>=0.0.5',
-    'bio2bel_hgnc>=0.0.7',
+    'compath_utils>=0.1.0',
+    'bio2bel_hgnc>=0.1.0',
     'pybel>=0.11.10',
     'sqlalchemy',
     'pandas',
 ]
 EXTRAS_REQUIRE = {
-    'web': ['flask', 'flask_admin'],
+    'web': [
+        'flask',
+        'flask_admin',
+    ],
 }
 ENTRY_POINTS = {
     'bio2bel': [
