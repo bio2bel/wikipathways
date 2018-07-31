@@ -9,8 +9,6 @@ from bio2bel.manager.flask_manager import FlaskMixin
 from bio2bel.manager.namespace_manager import BELNamespaceManagerMixin
 import bio2bel_hgnc
 from compath_utils import CompathManager
-from flask_admin import Admin
-from flask_admin.contrib.sqla import ModelView
 from pybel.constants import BIOPROCESS, FUNCTION, NAME, NAMESPACE, PROTEIN
 from pybel.manager.models import NamespaceEntry
 from pybel.struct.graph import BELGraph
@@ -51,6 +49,9 @@ class Manager(CompathManager, FlaskMixin, BELNamespaceManagerMixin, BELManagerMi
     """Override views in _make_admin"""
 
     def _add_admin(self, app, **kwargs):
+        from flask_admin import Admin
+        from flask_admin.contrib.sqla import ModelView
+
         class PathwayView(ModelView):
             """Pathway view in Flask-admin."""
 
