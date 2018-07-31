@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
-""" This module contains tests for parsing GMT files"""
+
+"""Tests for Bio2BEL WikiPathways."""
 
 from bio2bel_wikipathways.models import Pathway, Protein
 from tests.constants import DatabaseMixin, get_enrichment_graph
@@ -9,25 +10,29 @@ class TestParse(DatabaseMixin):
     """Tests the parsing module."""
 
     def test_pathway_count(self):
+        """Test the correct number of pathways were populated."""
         pathway_number = self.manager.session.query(Pathway).count()
         self.assertEqual(5, pathway_number)
 
     def test_protein_count(self):
+        """Test the correct number of proteins were populated."""
         protein_number = self.manager.session.query(Protein).count()
         self.assertEqual(17, protein_number)
 
     def test_pathway_protein_1(self):
+        """Test that pathway WP3596 can be retrieved by identifier."""
         pathway = self.manager.get_pathway_by_id('WP3596')
         self.assertIsNotNone(pathway, msg='Unable to find pathway')
         self.assertEqual(5, len(pathway.proteins))
 
     def test_pathway_protein_2(self):
+        """Test that pathway WP4022 can be retrieved by identifier."""
         pathway = self.manager.get_pathway_by_id('WP4022')
         self.assertIsNotNone(pathway, msg='Unable to find pathway')
         self.assertEqual(2, len(pathway.proteins))
 
     def test_gene_query_1(self):
-        """Single protein query. This protein is associated with 1 pathways"""
+        """Test a single protein query for a protein that is associated with 1 pathway."""
         enriched_pathways = self.manager.query_gene_set(['MAT2B'])
         self.assertIsNotNone(enriched_pathways, msg='Enriching function is not working')
 
@@ -45,7 +50,7 @@ class TestParse(DatabaseMixin):
         )
 
     def test_gene_query_2(self):
-        """Multiple protein query"""
+        """Test a multiple protein query."""
         enriched_pathways = self.manager.query_gene_set(['UGT2B7', 'UGT2B4', 'CDKN1A'])
         self.assertIsNotNone(enriched_pathways, msg='Enriching function is not working')
 
@@ -83,7 +88,7 @@ class TestParse(DatabaseMixin):
         )
 
     def test_gene_query_3(self):
-        """Multiple protein query"""
+        """Test a multiple protein query."""
         enriched_pathways = self.manager.query_gene_set(['UGT2B7', 'UGT2B4'])
         self.assertIsNotNone(enriched_pathways, msg='Enriching function is not working')
 
@@ -105,8 +110,7 @@ class TestParse(DatabaseMixin):
                 "mapped_proteins": 1,
                 "pathway_size": 6,
                 "pathway_gene_set": {'MIR6869', 'RGS5', 'UGT2B4', 'GNGT1', 'GNG11', 'KCNJ3'},
-            }
-            ,
+            },
             enriched_pathways["WP536"]
         )
 

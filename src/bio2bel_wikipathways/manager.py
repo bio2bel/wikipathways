@@ -4,20 +4,20 @@
 
 import logging
 
-from flask_admin import Admin
-from flask_admin.contrib.sqla import ModelView
-from tqdm import tqdm
-
-import bio2bel_hgnc
 from bio2bel.manager.bel_manager import BELManagerMixin
 from bio2bel.manager.flask_manager import FlaskMixin
 from bio2bel.manager.namespace_manager import BELNamespaceManagerMixin
+import bio2bel_hgnc
 from compath_utils import CompathManager
+from flask_admin import Admin
+from flask_admin.contrib.sqla import ModelView
 from pybel.constants import BIOPROCESS, FUNCTION, NAME, NAMESPACE, PROTEIN
 from pybel.manager.models import NamespaceEntry
 from pybel.struct.graph import BELGraph
+from tqdm import tqdm
+
 from .constants import MODULE_NAME, WIKIPATHWAYS
-from .models import Base, Pathway, Protein, protein_pathway
+from .models import Base, Pathway, Protein
 from .parser import parse_gmt_file
 
 __all__ = [
@@ -51,16 +51,17 @@ class Manager(CompathManager, FlaskMixin, BELNamespaceManagerMixin, BELManagerMi
     """Override views in _make_admin"""
 
     def _add_admin(self, app, **kwargs):
-
         class PathwayView(ModelView):
-            """Pathway view in Flask-admin"""
+            """Pathway view in Flask-admin."""
+
             column_searchable_list = (
                 Pathway.wikipathways_id,
                 Pathway.name
             )
 
         class ProteinView(ModelView):
-            """Protein view in Flask-admin"""
+            """Protein view in Flask-admin."""
+
             column_searchable_list = (
                 Protein.entrez_id,
                 Protein.hgnc_symbol,
@@ -162,9 +163,9 @@ class Manager(CompathManager, FlaskMixin, BELNamespaceManagerMixin, BELManagerMi
     """Methods to populate the DB"""
 
     def populate(self, url=None):
-        """Populate all tables.
+        """Populate the database.
 
-        :param Optional[str] url: url from gmt file
+        :param Optional[str] url: url from a GMT file
         """
         hgnc_manager = bio2bel_hgnc.Manager(engine=self.engine, session=self.session)
         if not hgnc_manager.is_populated():
@@ -233,8 +234,6 @@ class Manager(CompathManager, FlaskMixin, BELNamespaceManagerMixin, BELManagerMi
         hgnc_namespace = hgnc_manager.upload_bel_namespace()
         graph.namespace_url[hgnc_namespace.keyword] = hgnc_namespace.url
 
-        ppas = self.session.query(protein_pathway) # protein pathway associations
-
         for pathway in tqdm(self.get_all_pathways(), total=self._count_model(Pathway)):
             for protein in pathway.proteins:
                 pathway_bel = pathway.serialize_to_pathway_node()
@@ -242,7 +241,6 @@ class Manager(CompathManager, FlaskMixin, BELNamespaceManagerMixin, BELManagerMi
                 graph.add_part_of(protein_bel, pathway_bel)
 
         return graph
-
 
     def get_pathway_graph_by_id(self, wikipathways_id):
         """Return a new graph corresponding to the pathway.
@@ -313,7 +311,7 @@ class Manager(CompathManager, FlaskMixin, BELNamespaceManagerMixin, BELManagerMi
 
     @staticmethod
     def _get_identifier(model):
-        """Given an instance of namespace_model, extract its identifier.
+        """Extract the identifier from a pathway mode.
 
         :param Pathway model: The model to convert
         :rtype: str

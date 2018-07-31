@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+"""Parser for Bio2BEL WikiPathways."""
+
 import requests
 from requests_file import FileAdapter
 
@@ -7,7 +9,7 @@ from .constants import HOMO_SAPIENS_GENE_SETS
 
 
 def _process_pathway_id(pathway_id):
-    """Processes the pathway id
+    """Process the pathway id.
 
     :param str pathway_id: pathway id with suffix
     :rtype: str
@@ -17,7 +19,7 @@ def _process_pathway_id(pathway_id):
 
 
 def _get_pathway_name(line):
-    """Splits the pathway name word and returns the name
+    """Split the pathway name word and returns the name.
 
     :param line: first word from gmt file
     :rtype: str
@@ -27,7 +29,7 @@ def _get_pathway_name(line):
 
 
 def _get_pathway_id(pathway_info_url):
-    """Splits the pathway info url and returns the id
+    """Split the pathway info url and returns the id.
 
     :param pathway_info_url: first word from gmt file
     :rtype: str
@@ -37,7 +39,7 @@ def _get_pathway_id(pathway_info_url):
 
 
 def _process_line(line):
-    """Returns pathway name, url and gene sets associated
+    """Return thw pathway name, url, and gene sets associated.
 
     :param str line: gmt file line
     :rtype: str
@@ -52,17 +54,17 @@ def _process_line(line):
         for word in line.split('\t')
     ]
 
-    return _get_pathway_name(processed_line[0]), _process_pathway_id(_get_pathway_id(processed_line[1])), processed_line[2:]
+    return _get_pathway_name(processed_line[0]), _process_pathway_id(
+        _get_pathway_id(processed_line[1])), processed_line[2:]
 
 
 def parse_gmt_file(url=None):
-    """Returns file as list of pathway - gene sets (ENTREZ-identifiers)
+    """Return file as list of pathway - gene sets (ENTREZ-identifiers).
 
     :param Optional[str] url: url from gmt file
     :return: line-based processed file
     :rtype: list
     """
-
     # Allow local file to be parsed
     session = requests.session()
     session.mount('file://', FileAdapter())

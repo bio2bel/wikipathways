@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-""" This module contains the flask application to visualize the db"""
+"""WSGI module for Bio2BEL WikiPathways."""
 
 from bio2bel_wikipathways.manager import Manager
 

@@ -1,12 +1,11 @@
 # -*- coding: utf-8 -*-
 
-"""WikiPathways database models"""
+"""SQLAlchemy models for Bio2BEL WikiPathways."""
 
+from pybel.dsl import bioprocess, protein as protein_dsl
 from sqlalchemy import Column, ForeignKey, Integer, String, Table
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
-
-from pybel.dsl import bioprocess, protein
 
 Base = declarative_base()
 
@@ -24,7 +23,7 @@ protein_pathway = Table(
 
 
 class Pathway(Base):
-    """Pathway Table"""
+    """A database model for a WikiPathways pathway."""
 
     __tablename__ = PATHWAY_TABLE_NAME
 
@@ -39,11 +38,12 @@ class Pathway(Base):
         backref='pathways'
     )
 
-    def __repr__(self):
+    def __repr__(self):  # noqa: D105
         return self.name
 
     def serialize_to_pathway_node(self):
-        """Function to serialize to PyBEL node data dictionary.
+        """Serialize this pathway to a BEL node.
+
         :rtype: pybel.dsl.bioprocess
         """
         return bioprocess(
@@ -53,7 +53,9 @@ class Pathway(Base):
         )
 
     def get_gene_set(self):
-        """Return the genes associated with the pathway (gene set). Note this function restricts to HGNC symbols genes
+        """Return the genes associated with the pathway (gene set).
+
+        Note: this function restricts to HGNC symbols genes
 
         :rtype: set[bio2bel_wikipathways.models.Protein]
         """
@@ -65,15 +67,23 @@ class Pathway(Base):
 
     @property
     def resource_id(self):
+        """Return this resource's WikiPathways identifier.
+
+        :rtype: str
+        """
         return self.wikipathways_id
 
     @property
     def url(self):
+        """Return a formatted URL for getting information on this resource from WikiPathways.
+
+        :rtype: str
+        """
         return 'https://www.wikipathways.org/index.php/Pathway:{}'.format(self.wikipathways_id)
 
 
 class Protein(Base):
-    """Genes Table"""
+    """A database model for a protein."""
 
     __tablename__ = PROTEIN_TABLE_NAME
 
@@ -83,21 +93,25 @@ class Protein(Base):
     hgnc_id = Column(String(255), doc='hgnc id of the protein')
     hgnc_symbol = Column(String(255), doc='hgnc symbol of the protein')
 
-    def __repr__(self):
+    def __repr__(self):  # noqa: D105
         return self.hgnc_id
 
     def serialize_to_protein_node(self):
-        """Function to serialize to PyBEL node data dictionary.
+        """Serialize this node to a PyBEL data dictionary.
+
         :rtype: pybel.dsl.protein
         """
-        return protein(
+        return protein_dsl(
             namespace='hgnc',
             name=self.hgnc_symbol,
             identifier=str(self.hgnc_id)
         )
 
     def get_pathways_ids(self):
-        """Return the pathways associated with the protein"""
+        """Return the pathways associated with the protein.
+
+        :rtype: set[str]
+        """
         return {
             pathway.wikipathways_id
             for pathway in self.pathways

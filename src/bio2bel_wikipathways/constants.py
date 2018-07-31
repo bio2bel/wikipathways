@@ -1,18 +1,13 @@
 # -*- coding: utf-8 -*-
 
-"""WikiPathways constants"""
+"""Constants for Bio2BEL WikiPathways."""
 
-import os
-
-from bio2bel.utils import get_connection, get_data_dir
+from bio2bel.utils import get_data_dir
 
 VERSION = '0.1.0-dev'
 
 MODULE_NAME = 'wikipathways'
 DATA_DIR = get_data_dir(MODULE_NAME)
-DEFAULT_CACHE_CONNECTION = get_connection(MODULE_NAME)
-
-CONFIG_FILE_PATH = os.path.join(DATA_DIR, 'config.ini')
 
 HGNC = 'HGNC'
 WIKIPATHWAYS = 'WIKIPATHWAYS'
