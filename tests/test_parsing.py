@@ -2,11 +2,11 @@
 """ This module contains tests for parsing GMT files"""
 
 from bio2bel_wikipathways.models import Pathway, Protein
-from tests.constants import DatabaseMixin
+from tests.constants import DatabaseMixin, get_enrichment_graph
 
 
 class TestParse(DatabaseMixin):
-    """Tests the parsing module"""
+    """Tests the parsing module."""
 
     def test_pathway_count(self):
         pathway_number = self.manager.session.query(Pathway).count()
@@ -109,3 +109,28 @@ class TestParse(DatabaseMixin):
             ,
             enriched_pathways["WP536"]
         )
+
+    def test_get_pathway_graph(self):
+        """Test getting a pathway graph."""
+        graph = self.manager.get_pathway_graph_by_id('WP3596')
+
+        self.assertEqual(6, graph.number_of_nodes())  # 5 proteins + pathway node
+        self.assertEqual(5, graph.number_of_edges())  # 5 edges protein -- pathway
+
+    def test_enrich_wikipathway_pathway(self):
+        """Test enriching protein members of a WikiPathway node."""
+        graph_example = get_enrichment_graph()
+
+        self.manager.enrich_wikipathways_pathway(graph_example)
+
+        self.assertEqual(6, graph_example.number_of_nodes())  # 4 nodes + 2 new
+        self.assertEqual(5, graph_example.number_of_edges())  # 3 + 2 new
+
+    def test_enrich_wikipathway_protein(self):
+        """Test enriching pathway memberships of a protein."""
+        graph_example = get_enrichment_graph()
+
+        self.manager.enrich_wikipathways_protein(graph_example)
+
+        self.assertEqual(6, graph_example.number_of_nodes())  # 4 +  2 new pathways
+        self.assertEqual(5, graph_example.number_of_edges())  # 3 + 2 new

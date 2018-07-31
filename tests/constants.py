@@ -5,12 +5,11 @@
 import logging
 import os
 import pathlib
-import tempfile
-import unittest
 
 import bio2bel_hgnc
 import pybel
 from bio2bel.manager.connection_manager import build_engine_session
+from bio2bel.testing import TemporaryConnectionMixin
 from bio2bel_wikipathways.constants import HGNC, WIKIPATHWAYS
 from bio2bel_wikipathways.manager import Manager
 from pybel.constants import DECREASES, INCREASES, PART_OF, RELATION
@@ -28,48 +27,36 @@ hgnc_test_path = os.path.join(resources_path, 'hgnc_test.json')
 hcop_test_path = os.path.join(resources_path, 'hcop_test.txt')
 
 
-class DatabaseMixin(unittest.TestCase):
+class DatabaseMixin(TemporaryConnectionMixin):
+    """Load the database before each test."""
+
     @classmethod
     def setUpClass(cls):
-        """Create temporary file"""
-
-        cls.fd, cls.path = tempfile.mkstemp()
-        cls.connection = 'sqlite:///' + cls.path
-
-        log.info('Test generated connection string %s', cls.connection)
+        """Create a temporary file and populate the database."""
+        super().setUpClass()
 
         cls.engine, cls.session = build_engine_session(connection=cls.connection)
-
-        # PyBEL manager
-        cls.pybel_manager = pybel.Manager(engine=cls.engine, session=cls.session)
-        cls.pybel_manager.create_all()
 
         # HGNC manager
         cls.hgnc_manager = bio2bel_hgnc.Manager(engine=cls.engine, session=cls.session)
         cls.hgnc_manager.create_all()
-        cls.hgnc_manager.populate(
-            hgnc_file_path=hgnc_test_path,
-            hcop_file_path=hcop_test_path,
-        )
+        cls.hgnc_manager.populate(hgnc_file_path=hgnc_test_path, use_hcop=False)
 
         # create temporary database
         cls.manager = Manager(engine=cls.engine, session=cls.session)
 
         # fill temporary database with test data
-        cls.manager.populate(
-            url=pathlib.Path(gene_sets_path).as_uri()
-        )
+        cls.manager.populate(url=pathlib.Path(gene_sets_path).as_uri())
+
+        # PyBEL manager
+        cls.pybel_manager = pybel.Manager(engine=cls.engine, session=cls.session)
+        cls.pybel_manager.create_all()
 
     @classmethod
     def tearDownClass(cls):
-        """Closes the connection in the manager and deletes the temporary database"""
-        cls.manager.drop_all()
-        cls.hgnc_manager.drop_all()
-        cls.pybel_manager.drop_all()
-
+        """Closes the connection in the manager and deletes the temporary database."""
         cls.session.close()
-        os.close(cls.fd)
-        os.remove(cls.path)
+        super().tearDownClass()
 
 
 protein_a = protein(namespace=HGNC, name='DNMT1')
@@ -78,7 +65,7 @@ gene_c = gene(namespace=HGNC, name='PGLS')
 pathway_a = bioprocess(namespace=WIKIPATHWAYS, name='Codeine and Morphine Metabolism')
 
 
-def enrichment_graph():
+def get_enrichment_graph():
     """Build a simple test graph with 2 proteins, one gene, and one kegg pathway all contained in HGNC."""
 
     graph = BELGraph(
