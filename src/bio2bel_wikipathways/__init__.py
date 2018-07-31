@@ -21,7 +21,7 @@ Citation
 from .manager import Manager  # noqa: F401
 from .utils import get_version  # noqa: F401
 
-__version__ = '0.1.0-dev'
+__version__ = '0.1.0'
 
 __title__ = 'bio2bel_wikipathways'
 __description__ = "A package for converting Wikipathways to BEL"
