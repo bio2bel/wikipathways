@@ -2,7 +2,7 @@
 
 """Constants for Bio2BEL WikiPathways."""
 
-from bio2bel.utils import get_data_dir
+from bio2bel import get_data_dir
 
 VERSION = '0.1.3-dev'
 
