@@ -26,7 +26,7 @@ log = logging.getLogger(__name__)
 logging.getLogger("urllib3").setLevel(logging.WARNING)
 
 
-class Manager(CompathManager, FlaskMixin, BELNamespaceManagerMixin, BELManagerMixin):
+class Manager(CompathManager, BELNamespaceManagerMixin, BELManagerMixin, FlaskMixin):
     """Bio2BEL Manager for WikiPathways."""
 
     module_name = MODULE_NAME
