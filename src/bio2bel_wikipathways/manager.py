@@ -284,9 +284,9 @@ class Manager(CompathManager, BELNamespaceManagerMixin, BELManagerMixin, FlaskMi
 
         :param pybel.BELGraph graph: A BEL Graph
         """
-        for node, data in graph.nodes(data=True):
-            if data[FUNCTION] == BIOPROCESS and data[NAMESPACE] == WIKIPATHWAYS and NAME in data:
-                pathway = self.get_pathway_by_name(data[NAME])
+        for node in list(graph):
+            if node.function == BIOPROCESS and node.namespace == WIKIPATHWAYS and NAME in node:
+                pathway = self.get_pathway_by_name(node.name)
                 for protein in pathway.proteins:
                     graph.add_part_of(protein.serialize_to_protein_node(), node)
 
@@ -295,9 +295,9 @@ class Manager(CompathManager, BELNamespaceManagerMixin, BELManagerMixin, FlaskMi
 
         :param pybel.BELGraph graph: A BEL Graph
         """
-        for node, data in graph.nodes(data=True):
-            if data[FUNCTION] == PROTEIN and data[NAMESPACE] == 'HGNC':
-                protein = self.get_protein_by_hgnc_symbol(data[NAME])
+        for node in list(graph):
+            if node.function == PROTEIN and 'namespace' in node and node.namespace == 'HGNC':
+                protein = self.get_protein_by_hgnc_symbol(node.name)
                 for pathway in protein.pathways:
                     graph.add_part_of(node, pathway.serialize_to_pathway_node())
 
