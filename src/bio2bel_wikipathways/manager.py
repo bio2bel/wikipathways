@@ -4,16 +4,16 @@
 
 import logging
 
-import bio2bel_hgnc
 from bio2bel.manager.bel_manager import BELManagerMixin
 from bio2bel.manager.flask_manager import FlaskMixin
 from bio2bel.manager.namespace_manager import BELNamespaceManagerMixin
+import bio2bel_hgnc
+from compath_utils import CompathManager
 from pybel.constants import BIOPROCESS, NAME, PROTEIN
 from pybel.manager.models import NamespaceEntry
 from pybel.struct.graph import BELGraph
 from tqdm import tqdm
 
-from compath_utils import CompathManager
 from .constants import MODULE_NAME, WIKIPATHWAYS
 from .models import Base, Pathway, Protein
 from .parser import parse_gmt_file
