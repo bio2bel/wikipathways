@@ -4,22 +4,22 @@
 
 import logging
 
+from tqdm import tqdm
+
+import bio2bel_hgnc
 from bio2bel.manager.bel_manager import BELManagerMixin
 from bio2bel.manager.flask_manager import FlaskMixin
 from bio2bel.manager.namespace_manager import BELNamespaceManagerMixin
-import bio2bel_hgnc
 from compath_utils import CompathManager
 from pybel.constants import BIOPROCESS, NAME, PROTEIN
 from pybel.manager.models import NamespaceEntry
 from pybel.struct.graph import BELGraph
-from tqdm import tqdm
-
 from .constants import MODULE_NAME, WIKIPATHWAYS
 from .models import Base, Pathway, Protein
 from .parser import parse_gmt_file
 
 __all__ = [
-    'Manager'
+    'Manager',
 ]
 
 log = logging.getLogger(__name__)
@@ -37,7 +37,7 @@ class Manager(CompathManager, BELNamespaceManagerMixin, BELManagerMixin, FlaskMi
     protein_model = Protein
 
     identifiers_recommended = 'WikiPathways'
-    identifiers_pattern = 'WP\d{1,5}(\_r\d+)?$'
+    identifiers_pattern = r'WP\d{1,5}(\_r\d+)?$'
     identifiers_miriam = 'MIR:00000076'
     identifiers_namespace = 'wikipathways'
     identifiers_url = 'http://identifiers.org/wikipathways/'

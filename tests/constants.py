@@ -6,12 +6,12 @@ import logging
 import os
 import pathlib
 
+import bio2bel_hgnc
+import pybel
 from bio2bel.manager.connection_manager import build_engine_session
 from bio2bel.testing import TemporaryConnectionMixin
-import bio2bel_hgnc
 from bio2bel_wikipathways.constants import HGNC, WIKIPATHWAYS
 from bio2bel_wikipathways.manager import Manager
-import pybel
 from pybel.constants import DECREASES, INCREASES, PART_OF, RELATION
 from pybel.dsl import bioprocess, gene, protein
 from pybel.struct.graph import BELGraph

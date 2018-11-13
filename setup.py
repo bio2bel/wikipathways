@@ -10,14 +10,28 @@ import setuptools
 
 BIO2BEL_MODULE = 'wikipathways'
 PACKAGES = setuptools.find_packages(where='src')
-META_PATH = os.path.join('src', 'bio2bel_{}'.format(BIO2BEL_MODULE), '__init__.py')
+META_PATH = os.path.join('src', f'bio2bel_{BIO2BEL_MODULE}', '__init__.py')
+KEYWORDS = ['Biological Expression Language', 'BEL', 'WikiPathways', 'Systems Biology', 'Networks Biology']
+CLASSIFIERS = [
+    'Development Status :: 4 - Beta',
+    'Environment :: Console',
+    'Intended Audience :: Developers',
+    'Intended Audience :: Science/Research',
+    'License :: OSI Approved :: MIT License',
+    'Operating System :: OS Independent',
+    'Programming Language :: Python',
+    'Programming Language :: Python :: 3 :: Only',
+    'Programming Language :: Python :: 3.6',
+    'Programming Language :: Python :: 3.7',
+    'Topic :: Scientific/Engineering :: Bio-Informatics',
+]
 INSTALL_REQUIRES = [
     'click',
     'tqdm',
-    'bio2bel>=0.1.0',
+    'bio2bel>=0.2.0,<0.3.0',
     'compath_utils>=0.1.0',
     'bio2bel_hgnc>=0.1.0',
-    'pybel>=0.11.10',
+    'pybel>=0.12.0,<0.13.0',
     'sqlalchemy',
     'pandas',
 ]
@@ -26,16 +40,24 @@ EXTRAS_REQUIRE = {
         'flask',
         'flask_admin',
     ],
+    'docs': [
+        'flask',
+        'flask_admin',
+        'sphinx',
+        'sphinx-rtd-theme',
+        'sphinx-click',
+        'sphinx-autodoc-typehints',
+    ],
 }
 ENTRY_POINTS = {
     'bio2bel': [
-        '{mname} = bio2bel_{mname}'.format(mname=BIO2BEL_MODULE),
+        f'{BIO2BEL_MODULE} = bio2bel_{BIO2BEL_MODULE}',
     ],
     'compath': [
-        '{mname} = bio2bel_{mname}'.format(mname=BIO2BEL_MODULE)
+        f'{BIO2BEL_MODULE} = bio2bel_{BIO2BEL_MODULE}',
     ],
     'console_scripts': [
-        'bio2bel_{mname} = bio2bel_{mname}.cli:main'.format(mname=BIO2BEL_MODULE),
+        f'bio2bel_{BIO2BEL_MODULE} = bio2bel_{BIO2BEL_MODULE}.cli:main',
     ]
 }
 
@@ -82,8 +104,11 @@ if __name__ == '__main__':
         maintainer_email=find_meta('email'),
         license=find_meta('license'),
         packages=PACKAGES,
+        classifiers=CLASSIFIERS,
+        keywords=KEYWORDS,
         package_dir={'': 'src'},
         install_requires=INSTALL_REQUIRES,
         extras_require=EXTRAS_REQUIRE,
         entry_points=ENTRY_POINTS,
+        zip_safe=False,
     )
