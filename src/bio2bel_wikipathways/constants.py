@@ -4,7 +4,7 @@
 
 from bio2bel import get_data_dir
 
-VERSION = '0.2.2'
+VERSION = '0.2.3-dev'
 
 MODULE_NAME = 'wikipathways'
 DATA_DIR = get_data_dir(MODULE_NAME)
