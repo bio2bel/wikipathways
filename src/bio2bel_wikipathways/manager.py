@@ -15,7 +15,7 @@ from pybel.constants import BIOPROCESS, NAME, PROTEIN
 from pybel.manager.models import NamespaceEntry
 from pybel.struct.graph import BELGraph
 from .constants import MODULE_NAME, WIKIPATHWAYS
-from .models import Base, Pathway, Protein
+from .models import Base, Pathway, Protein, protein_pathway
 from .parser import parse_gmt_file
 
 __all__ = [
@@ -27,10 +27,11 @@ logging.getLogger("urllib3").setLevel(logging.WARNING)
 
 
 class Manager(CompathManager, BELNamespaceManagerMixin, BELManagerMixin, FlaskMixin):
-    """Bio2BEL Manager for WikiPathways."""
+    """Protein-pathway memberships."""
 
     module_name = MODULE_NAME
 
+    edge_model = protein_pathway
     flask_admin_models = [Pathway, Protein]
     namespace_model = pathway_model = Pathway
     pathway_model_identifier_column = Pathway.wikipathways_id
