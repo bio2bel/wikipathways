@@ -3,6 +3,7 @@
 """This module populates the tables of bio2bel_wikipathways."""
 
 import logging
+from typing import Optional
 
 from tqdm import tqdm
 
@@ -182,12 +183,11 @@ class Manager(CompathManager, BELNamespaceManagerMixin, BELManagerMixin, FlaskMi
         entrez_id_protein = {}
         missing_entrez_ids = set()
 
-        for pathway_name, wikipathways_id, gene_set in tqdm(pathways, desc='Loading database'):
-
+        it = tqdm(pathways, desc='Loading WikiPathways')
+        for pathway_name, wikipathways_id, gene_set in it:
             pathway = self.get_or_create_pathway(wikipathways_id=wikipathways_id, name=pathway_name.strip())
 
             for entrez_id in gene_set:
-
                 if entrez_id in entrez_id_protein:
                     protein = entrez_id_protein[entrez_id]
 
@@ -195,7 +195,7 @@ class Manager(CompathManager, BELNamespaceManagerMixin, BELManagerMixin, FlaskMi
                     hgnc_symbol = entrez_to_hgnc_symbol.get(entrez_id)
 
                     if not hgnc_symbol:
-                        log.warning("{} ENTREZ ID has no HGNC symbol".format(entrez_id))
+                        it.write(f"ncbigene:{entrez_id} has no HGNC symbol")
                         missing_entrez_ids.add(entrez_id)
                         continue
 
@@ -212,12 +212,8 @@ class Manager(CompathManager, BELNamespaceManagerMixin, BELManagerMixin, FlaskMi
 
     """Methods to enrich BEL graphs"""
 
-    def to_bel(self):
+    def to_bel(self) -> BELGraph:
         """Return a new graph corresponding to the pathway.
-
-        :param str wikipathways_id: wikipathways identifier
-        :rtype: Optional[pybel.BELGraph]
-        :return: A BEL Graph corresponding to the wikipathway id
 
         Example Usage:
 
@@ -244,10 +240,10 @@ class Manager(CompathManager, BELNamespaceManagerMixin, BELManagerMixin, FlaskMi
 
         return graph
 
-    def get_pathway_graph_by_id(self, wikipathways_id):
+    def get_pathway_graph_by_id(self, wikipathways_id: str) -> Optional[BELGraph]:
         """Return a new graph corresponding to the pathway.
 
-        :param str wikipathways_id: wikipathways identifier
+        :param wikipathways_id: wikipathways identifier
         :rtype: Optional[pybel.BELGraph]
         :return: A BEL Graph corresponding to the wikipathway id
 
@@ -280,22 +276,16 @@ class Manager(CompathManager, BELNamespaceManagerMixin, BELManagerMixin, FlaskMi
 
         return graph
 
-    def enrich_wikipathways_pathway(self, graph):
-        """Enrich all proteins belonging to wikipathways pathway nodes in the graph.
-
-        :param pybel.BELGraph graph: A BEL Graph
-        """
+    def enrich_wikipathways_pathway(self, graph: BELGraph) -> None:
+        """Enrich all proteins belonging to WikiPathways pathway nodes in the graph."""
         for node in list(graph):
             if node.function == BIOPROCESS and node.namespace == WIKIPATHWAYS and NAME in node:
                 pathway = self.get_pathway_by_name(node.name)
                 for protein in pathway.proteins:
                     graph.add_part_of(protein.serialize_to_protein_node(), node)
 
-    def enrich_wikipathways_protein(self, graph):
-        """Enrich all wikipathways pathways associated with proteins in the graph.
-
-        :param pybel.BELGraph graph: A BEL Graph
-        """
+    def enrich_wikipathways_protein(self, graph: BELGraph) -> None:
+        """Enrich all WikiPathways pathways associated with proteins in the graph."""
         for node in list(graph):
             if node.function == PROTEIN and 'namespace' in node and node.namespace == 'HGNC':
                 protein = self.get_protein_by_hgnc_symbol(node.name)
@@ -312,10 +302,6 @@ class Manager(CompathManager, BELNamespaceManagerMixin, BELManagerMixin, FlaskMi
         return NamespaceEntry(encoding='B', name=model.name, identifier=model.wikipathways_id, namespace=namespace)
 
     @staticmethod
-    def _get_identifier(model):
-        """Extract the identifier from a pathway mode.
-
-        :param Pathway model: The model to convert
-        :rtype: str
-        """
+    def _get_identifier(model: Pathway) -> str:
+        """Extract the identifier from a pathway mode."""
         return model.wikipathways_id
