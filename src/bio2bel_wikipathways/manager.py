@@ -31,7 +31,7 @@ class Manager(CompathManager, BELNamespaceManagerMixin, BELManagerMixin, FlaskMi
     """Protein-pathway memberships."""
 
     module_name = MODULE_NAME
-
+    _base = Base
     edge_model = protein_pathway
     flask_admin_models = [Pathway, Protein]
     namespace_model = pathway_model = Pathway
@@ -43,10 +43,6 @@ class Manager(CompathManager, BELNamespaceManagerMixin, BELManagerMixin, FlaskMi
     identifiers_miriam = 'MIR:00000076'
     identifiers_namespace = 'wikipathways'
     identifiers_url = 'http://identifiers.org/wikipathways/'
-
-    @property
-    def _base(self):
-        return Base
 
     """Override views in _make_admin"""
 
