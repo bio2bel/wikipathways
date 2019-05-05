@@ -34,8 +34,6 @@ class Protein(Base):
     entrez_id = Column(String(255), doc='entrez id of the protein')
     hgnc_id = Column(String(255), doc='hgnc id of the protein')
     hgnc_symbol = Column(String(255), doc='hgnc symbol of the protein')
-    uniprot_id = Column()
-    uniprot_accession = Column()
 
     def __repr__(self):  # noqa: D105
         return self.hgnc_id
