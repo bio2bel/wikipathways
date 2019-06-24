@@ -9,7 +9,6 @@ in the `ComPath environment <https://github.com/ComPath>`_ for pathway database 
 
 Citation
 --------
-
 - Slenter, D.N., et al WikiPathways: a multifaceted pathway database bridging metabolomics to other omics research
   Nucleic Acids Research, (2017)doi.org/10.1093/nar/gkx1064
 - Kutmon, M., et al. WikiPathways: capturing the full diversity of pathway knowledge Nucl. Acids Res., 44, D488-D494
@@ -32,3 +31,8 @@ __email__ = 'daniel.domingo.fernandez@scai.fraunhofer.de'
 
 __license__ = 'MIT License'
 __copyright__ = 'Copyright (c) 2017-2018 Daniel Domingo-Fernández and Charles Tapley Hoyt'
+
+
+def get_version() -> str:
+    """Get the software version of ``bio2bel_wikipathways``."""
+    return __version__
