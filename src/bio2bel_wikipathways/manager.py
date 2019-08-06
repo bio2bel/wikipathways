@@ -3,8 +3,10 @@
 """This module populates the tables of bio2bel_wikipathways."""
 
 import logging
-from typing import List, Mapping, Optional
+import sys
+from typing import Iterable, List, Mapping, Optional, Union
 
+import click
 from tqdm import tqdm
 
 import bio2bel_hgnc
@@ -92,18 +94,25 @@ class Manager(CompathManager, BELNamespaceManagerMixin, BELManagerMixin, FlaskMi
 
         return q.all()
 
-    def get_or_create_pathway(self, wikipathways_id: str, name: Optional[str] = None) -> Pathway:
+    def get_or_create_pathway(
+            self,
+            wikipathways_id: str,
+            name: Optional[str] = None,
+            species: Optional[str] = None,
+    ) -> Pathway:
         """Get an pathway from the database or creates it.
 
         :param wikipathways_id: WikiPathways identifier
         :param name: name of the pathway
+        :param species: species in which the pathway was described
         """
         pathway = self.get_pathway_by_id(wikipathways_id)
 
         if pathway is None:
             pathway = Pathway(
                 wikipathways_id=wikipathways_id,
-                name=name
+                name=name,
+                species=species,
             )
             self.session.add(pathway)
 
@@ -143,7 +152,7 @@ class Manager(CompathManager, BELNamespaceManagerMixin, BELManagerMixin, FlaskMi
 
     """Methods to populate the DB"""
 
-    def populate(self, url: Optional[str] = None):
+    def populate(self, url: Union[None, str, Iterable[str]] = None):
         """Populate the database.
 
         :param url: url from a GMT file
@@ -152,7 +161,16 @@ class Manager(CompathManager, BELNamespaceManagerMixin, BELManagerMixin, FlaskMi
         if not hgnc_manager.is_populated():
             hgnc_manager.populate()
 
-        pathways = parse_gmt_file(url=url)
+        if url is None or isinstance(url, str):
+            pathways = parse_gmt_file(url=url)
+        elif isinstance(url, Iterable):
+            pathways = [
+                pathway
+                for u in url
+                for pathway in parse_gmt_file(url=u)
+            ]
+        else:
+            raise TypeError(f'Invalid type for url: {type(url)} ({url})')
 
         # Dictionaries to map across identifiers
         entrez_to_hgnc_symbol = hgnc_manager.build_entrez_id_symbol_mapping()
@@ -162,8 +180,12 @@ class Manager(CompathManager, BELNamespaceManagerMixin, BELManagerMixin, FlaskMi
         missing_entrez_ids = set()
 
         it = tqdm(pathways, desc='Loading WikiPathways')
-        for pathway_name, wikipathways_id, gene_set in it:
-            pathway = self.get_or_create_pathway(wikipathways_id=wikipathways_id, name=pathway_name.strip())
+        for pathway_name, species, wikipathways_id, gene_set in it:
+            pathway = self.get_or_create_pathway(
+                wikipathways_id=wikipathways_id,
+                name=pathway_name.strip(),
+                species=species,
+            )
 
             for entrez_id in gene_set:
                 if entrez_id in entrez_id_protein:
@@ -173,7 +195,7 @@ class Manager(CompathManager, BELNamespaceManagerMixin, BELManagerMixin, FlaskMi
                     hgnc_symbol = entrez_to_hgnc_symbol.get(entrez_id)
 
                     if not hgnc_symbol:
-                        it.write(f"ncbigene:{entrez_id} has no HGNC symbol")
+                        it.write(f"({species}) ncbigene:{entrez_id} has no HGNC symbol")
                         missing_entrez_ids.add(entrez_id)
                         continue
 
@@ -187,6 +209,29 @@ class Manager(CompathManager, BELNamespaceManagerMixin, BELManagerMixin, FlaskMi
 
         if missing_entrez_ids:
             log.warning("Total of {} missing ENTREZ".format(len(missing_entrez_ids)))
+
+    @classmethod
+    def _cli_add_populate(cls, main: click.Group) -> click.Group:
+        @main.command()
+        @click.option('--reset', is_flag=True, help='Nuke database first')
+        @click.option('--force', is_flag=True, help='Force overwrite if already populated')
+        @click.option('-u', '--url', multiple=True, help='URL of WikiPathways GMT files')
+        @click.pass_obj
+        def populate(manager: Manager, reset, force, url):
+            """Populate the database."""
+            if reset:
+                click.echo('Deleting the previous instance of the database')
+                manager.drop_all()
+                click.echo('Creating new models')
+                manager.create_all()
+
+            if manager.is_populated() and not force:
+                click.echo('Database already populated. Use --force to overwrite')
+                sys.exit(0)
+
+            manager.populate(url=url)
+
+        return main
 
     """Methods to enrich BEL graphs"""
 
@@ -235,7 +280,7 @@ class Manager(CompathManager, BELNamespaceManagerMixin, BELManagerMixin, FlaskMi
             return
 
         graph = BELGraph(
-            name='{} graph'.format(pathway.name),
+            name=f'{pathway.name} ({pathway.species})',
             version='1.0.0',
         )
 

@@ -62,6 +62,7 @@ class Pathway(Base):
 
     wikipathways_id = Column(String(255), unique=True, nullable=False, index=True, doc='WikiPathways id of the pathway')
     name = Column(String(255), doc='pathway name')
+    species = Column(String(255), doc='pathway species')
 
     bel_encoding = 'B'
 

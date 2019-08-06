@@ -2,6 +2,8 @@
 
 """Parser for Bio2BEL WikiPathways."""
 
+from typing import List, Optional, Tuple
+
 import requests
 from requests_file import FileAdapter
 
@@ -18,14 +20,17 @@ def _process_pathway_id(pathway_id):
     return pathway_id.split('_')[0]
 
 
-def _get_pathway_name(line):
+def _get_pathway_name(line: str) -> str:
     """Split the pathway name word and returns the name.
 
     :param line: first word from gmt file
-    :rtype: str
     :return: pathway name
     """
     return line.split('%')[0]
+
+
+def _get_pathway_species(line):
+    return line.split('%')[-1]
 
 
 def _get_pathway_id(pathway_info_url):
@@ -38,51 +43,50 @@ def _get_pathway_id(pathway_info_url):
     return pathway_info_url.replace('http://www.wikipathways.org/instance/', '')
 
 
-def _process_line(line):
-    """Return thw pathway name, url, and gene sets associated.
+GmtSummary = Tuple[str, str, str, List[str]]
 
-    :param str line: gmt file line
-    :rtype: str
+
+def _process_line(line: str) -> GmtSummary:
+    """Return the pathway name, species, url, and gene sets associated.
+
+    :param line: gmt file line
     :return: pathway name
-    :rtype: str
+    :return: pathway species
     :return: pathway info url
-    :rtype: list[str]
     :return: genes set associated
     """
-    processed_line = [
+    name, identifier, *genes = [
         word.strip()
         for word in line.split('\t')
     ]
 
-    return _get_pathway_name(processed_line[0]), _process_pathway_id(
-        _get_pathway_id(processed_line[1])), processed_line[2:]
+    return (
+        _get_pathway_name(name),
+        _get_pathway_species(name),
+        _process_pathway_id(_get_pathway_id(identifier)),
+        genes,
+    )
 
 
-def parse_gmt_file(url=None):
+def parse_gmt_file(url: Optional[str] = None) -> List[GmtSummary]:
     """Return file as list of pathway - gene sets (ENTREZ-identifiers).
 
-    :param Optional[str] url: url from gmt file
+    :param url: url from gmt file
     :return: line-based processed file
-    :rtype: list
     """
     # Allow local file to be parsed
     session = requests.session()
     session.mount('file://', FileAdapter())
 
+    # TODO parse out version information and send it forwards
     response = session.get(url or HOMO_SAPIENS_GENE_SETS)
 
     if response.status_code == 404:
         raise FileNotFoundError(
-            'Wikipathways has updated their files, please visit this page "http://data.wikipathways.org/current/gmt/" '
+            'WikiPathways has updated their files, please visit this page "http://data.wikipathways.org/current/gmt/" '
             'and change the URL in constants.py')
 
-    pathways = []
-
-    for line in response.iter_lines():
-        decoded_line = line.decode('utf-8')
-
-        pathway_name, url_info, gene_set = _process_line(decoded_line)
-
-        pathways.append((pathway_name, url_info, gene_set))
-
-    return pathways
+    return [
+        _process_line(line.decode('utf-8'))
+        for line in response.iter_lines()
+    ]
