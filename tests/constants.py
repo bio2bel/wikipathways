@@ -72,20 +72,15 @@ def get_enrichment_graph():
         version='0.0.1'
     )
 
-    protein_a_tuple = graph.add_node_from_data(protein_a)
-    protein_b_tuple = graph.add_node_from_data(protein_b)
-    gene_c_tuple = graph.add_node_from_data(gene_c)
-    pathway_a_tuple = graph.add_node_from_data(pathway_a)
-
-    graph.add_edge(protein_a_tuple, protein_b_tuple, attr_dict={
+    graph.add_edge(protein_a, protein_b, attr_dict={
         RELATION: INCREASES,
     })
 
-    graph.add_edge(protein_b_tuple, gene_c_tuple, attr_dict={
+    graph.add_edge(protein_b, gene_c, attr_dict={
         RELATION: DECREASES,
     })
 
-    graph.add_edge(gene_c_tuple, pathway_a_tuple, attr_dict={
+    graph.add_edge(gene_c, pathway_a, attr_dict={
         RELATION: PART_OF,
     })
 

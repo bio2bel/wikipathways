@@ -301,7 +301,7 @@ class Manager(CompathManager, BELNamespaceManagerMixin, BELManagerMixin, FlaskMi
     def enrich_wikipathways_pathway(self, graph: BELGraph) -> None:
         """Enrich all proteins belonging to WikiPathways pathway nodes in the graph."""
         for node in list(graph):
-            if node.function == BIOPROCESS and node.namespace == WIKIPATHWAYS and NAME in node:
+            if node.function == BIOPROCESS and node.namespace == WIKIPATHWAYS and node.name:
                 pathway = self.get_pathway_by_name(node.name)
                 for protein in pathway.proteins:
                     graph.add_part_of(protein.serialize_to_protein_node(), node)
@@ -309,7 +309,7 @@ class Manager(CompathManager, BELNamespaceManagerMixin, BELManagerMixin, FlaskMi
     def enrich_wikipathways_protein(self, graph: BELGraph) -> None:
         """Enrich all WikiPathways pathways associated with proteins in the graph."""
         for node in list(graph):
-            if node.function == PROTEIN and 'namespace' in node and node.namespace == 'HGNC':
+            if node.function == PROTEIN and node.namespace and node.namespace == 'HGNC':
                 protein = self.get_protein_by_hgnc_symbol(node.name)
                 for pathway in protein.pathways:
                     graph.add_part_of(node, pathway.serialize_to_pathway_node())
