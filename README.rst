@@ -4,6 +4,16 @@ This package allows the enrichment of BEL networks with WikiPathways information
 Furthermore, it is integrated in the `ComPath environment <https://github.com/ComPath>`_ for pathway database
 comparison.
 
+If you find this package useful, please consider citing [domingofernandez2018]_:
+
+.. [domingofernandez2018] Domingo-Fernandez, D., *et al* (2018). `ComPath: an ecosystem for exploring, analyzing,
+   and curating mappings across pathway databases <https://doi.org/10.1038/s41540-018-0078-8>`_.
+   *Npj Systems Biology and Applications*, __5__(1), 3.
+
+**Warning** This package creates ``partOf`` relationships in BEL, but does not convert WikiPathways mechanistic
+relationships to BEL. That functionality is implemented in the
+`PathMe project <https://github.com/pathwaymerger/pathme>`_.
+
 Installation |pypi_version| |python_versions| |pypi_license|
 ------------------------------------------------------------
 ``bio2bel_wikipathways`` can be installed easily from `PyPI <https://pypi.python.org/pypi/bio2bel_wikipathways>`_ with
@@ -11,23 +21,20 @@ the following code in your favorite terminal:
 
 .. code-block:: sh
 
-    $ python3 -m pip install bio2bel_wikipathways
+    $ pip install bio2bel_wikipathways
 
-or from the latest code on `GitHub <https://github.com/bio2bel/wikipathways>`_ with:
+or from the latest code on `GitHub <https://github.com/bio2bel/wikipathways>`_ in development mode with:
 
 .. code-block:: sh
 
-    $ python3 -m pip install git+https://github.com/bio2bel/wikipathways.git@master
+    $ git clone https://github.com/bio2bel/wikipathways.git
+    $ cd wikipathways
+    $ pip install -e .
 
 Setup
 -----
 WikiPathways can be downloaded and populated from either the Python REPL or the automatically installed command line
 utility.
-
-The following resources will be automatically installed and loaded in order to fully populate the tables of the
-database:
-
-- `Bio2BEL HGNC <https://github.com/bio2bel/hgnc>`_
 
 Python REPL
 ~~~~~~~~~~~
@@ -45,8 +52,8 @@ Command Line Utility
 
 Other Command Line Utilities
 ----------------------------
-- Run an admin site for simple querying and exploration :code:`python3 -m bio2bel_wikipathways web` (http://localhost:5000/admin/)
-- Export gene sets for programmatic use :code:`python3 -m bio2bel_wikipathways export`
+- Run an admin site for simple querying and exploration :code:`bio2bel_wikipathways web` (http://localhost:5000/admin/)
+- Export gene sets for programmatic use :code:`bio2bel_wikipathways export`
 
 Citation
 --------

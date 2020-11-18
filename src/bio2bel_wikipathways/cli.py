@@ -16,11 +16,7 @@ twice:
 Also see (1) from http://click.pocoo.org/5/setuptools/#setuptools-integration.
 """
 
-import logging
-
-from bio2bel_wikipathways.manager import Manager
-
-log = logging.getLogger(__name__)
+from .manager import Manager
 
 main = Manager.get_cli()
 

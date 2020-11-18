@@ -10,7 +10,6 @@ Bio2BEL WikiPathways
    cli
    models
    constants
-   parser
    web
 
 Indices and tables

@@ -4,31 +4,36 @@
 
 import logging
 import os
-import pathlib
 
-import bio2bel_hgnc
+import bio2bel_wikipathways
+import bio2bel_wikipathways.manager
 import pybel
 from bio2bel.manager.connection_manager import build_engine_session
 from bio2bel.testing import TemporaryConnectionMixin
 from bio2bel_wikipathways.constants import HGNC, WIKIPATHWAYS
-from bio2bel_wikipathways.manager import Manager
-from pybel.constants import DECREASES, INCREASES, PART_OF, RELATION
-from pybel.dsl import bioprocess, gene, protein
+from pybel.dsl import BiologicalProcess, Gene, Protein
 from pybel.struct.graph import BELGraph
+from pyobo.mocks import _replace_mapping_getter
 
-log = logging.getLogger(__name__)
+logger = logging.getLogger(__name__)
 
 dir_path = os.path.dirname(os.path.realpath(__file__))
 resources_path = os.path.join(dir_path, 'resources')
 
 gene_sets_path = os.path.join(resources_path, 'test_gmt_file.gmt')
 
-hgnc_test_path = os.path.join(resources_path, 'hgnc_test.json')
-hcop_test_path = os.path.join(resources_path, 'hcop_test.txt')
+mock_name_id_mapping = _replace_mapping_getter('bio2bel_wikipathways.manager.get_name_id_mapping', {
+    'ncbitaxon': {
+        'Homo sapiens': '9606',
+    },
+})
 
 
 class DatabaseMixin(TemporaryConnectionMixin):
     """Load the database before each test."""
+
+    wikipathways_manager: bio2bel_wikipathways.Manager
+    pybel_manager = pybel.Manager
 
     @classmethod
     def setUpClass(cls):
@@ -37,16 +42,12 @@ class DatabaseMixin(TemporaryConnectionMixin):
 
         cls.engine, cls.session = build_engine_session(connection=cls.connection)
 
-        # HGNC manager
-        cls.hgnc_manager = bio2bel_hgnc.Manager(engine=cls.engine, session=cls.session)
-        cls.hgnc_manager.create_all()
-        cls.hgnc_manager.populate(hgnc_file_path=hgnc_test_path, use_hcop=False)
-
-        # create temporary database
-        cls.manager = Manager(engine=cls.engine, session=cls.session)
-
-        # fill temporary database with test data
-        cls.manager.populate(url=pathlib.Path(gene_sets_path).as_uri())
+        # WikiPathways manager
+        cls.wikipathways_manager = bio2bel_wikipathways.Manager(engine=cls.engine, session=cls.session)
+        with mock_name_id_mapping:
+            if 1 != len(bio2bel_wikipathways.manager.get_name_id_mapping('ncbitaxon')):
+                raise ValueError('mock did not work properly')
+            cls.wikipathways_manager.populate(paths={'9606': gene_sets_path})
 
         # PyBEL manager
         cls.pybel_manager = pybel.Manager(engine=cls.engine, session=cls.session)
@@ -59,29 +60,19 @@ class DatabaseMixin(TemporaryConnectionMixin):
         super().tearDownClass()
 
 
-protein_a = protein(namespace=HGNC, name='DNMT1')
-protein_b = protein(namespace=HGNC, name='POLA1')
-gene_c = gene(namespace=HGNC, name='PGLS')
-pathway_a = bioprocess(namespace=WIKIPATHWAYS, name='Codeine and Morphine Metabolism')
+protein_a = Protein(namespace=HGNC, identifier='2976', name='DNMT1')
+protein_b = Protein(namespace=HGNC, identifier='9173', name='POLA1')
+gene_c = Gene(namespace=HGNC, identifier='8903', name='PGLS')
+pathway_a = BiologicalProcess(namespace=WIKIPATHWAYS, identifier='WP1604', name='Codeine and Morphine Metabolism')
 
 
 def get_enrichment_graph():
-    """Build a simple test graph with 2 proteins, one gene, and one kegg pathway all contained in HGNC."""
+    """Build a simple test graph with 2 proteins, one gene, and one pathway all contained in HGNC."""
     graph = BELGraph(
         name='My test graph for enrichment',
-        version='0.0.1'
+        version='0.0.1',
     )
-
-    graph.add_edge(protein_a, protein_b, attr_dict={
-        RELATION: INCREASES,
-    })
-
-    graph.add_edge(protein_b, gene_c, attr_dict={
-        RELATION: DECREASES,
-    })
-
-    graph.add_edge(gene_c, pathway_a, attr_dict={
-        RELATION: PART_OF,
-    })
-
+    graph.add_increases(protein_a, protein_b, citation='1234', evidence='')
+    graph.add_decreases(protein_b, gene_c, citation='1234', evidence='')
+    graph.add_part_of(gene_c, pathway_a)
     return graph

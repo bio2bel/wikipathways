@@ -19,15 +19,3 @@ Citation
 
 from .manager import Manager  # noqa: F401
 from .utils import get_version  # noqa: F401
-
-__version__ = '0.2.4-dev'
-
-__title__ = 'bio2bel_wikipathways'
-__description__ = "A package for converting Wikipathways to BEL"
-__url__ = 'https://github.com/bio2bel/wikipathways'
-
-__author__ = 'Daniel Domingo-Fernández and Charles Tapley Hoyt'
-__email__ = 'daniel.domingo.fernandez@scai.fraunhofer.de'
-
-__license__ = 'MIT License'
-__copyright__ = 'Copyright (c) 2017-2018 Daniel Domingo-Fernández and Charles Tapley Hoyt'
